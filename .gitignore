@@ -1,0 +1,11 @@
+node_modules
+build
+dist
+.next
+.env
+
+
+.nx/cache
+.nx/workspace-data
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

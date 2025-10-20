@@ -1,0 +1,28 @@
+{
+  "name": "express-next-monorepo-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "format": "prettier  \"{backend, frontend, shared}/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",
+    "format:check": "pnpm format --check",
+    "format:write": "pnpm format --write",
+    "build": "pnpm exec nx run-many --target=build",
+    "tsc": "pnpm exec nx run-many --target=tsc",
+    "lint": "pnpm exec nx run-many --target=lint",
+    "validate": "pnpm format:write && pnpm tsc && pnpm lint && pnpm build",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.1",
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^16.2.5",
+    "nx": "21.6.5",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  }
+}
