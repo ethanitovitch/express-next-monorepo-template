@@ -6,6 +6,10 @@ import { validatedRoute } from './utils'
 
 const router = Router()
 
-router.get('/:id', validateAndMerge(GetExampleRequestSchema), validatedRoute(getExample))
+router.get(
+  '/:id',
+  validateAndMerge(GetExampleRequestSchema),
+  validatedRoute(getExample),
+)
 
 export default router
