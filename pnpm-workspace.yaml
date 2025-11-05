@@ -1,4 +1,14 @@
 packages:
-  - 'backend'
-  - 'frontend'
-  - 'shared/*'
+  - backend
+  - frontend
+  - shared/*
+
+onlyBuiltDependencies:
+  - '@prisma/engines'
+  - '@sentry-internal/node-cpu-profiler'
+  - esbuild
+  - msgpackr-extract
+  - nx
+  - prisma
+  - sharp
+  - unrs-resolver
