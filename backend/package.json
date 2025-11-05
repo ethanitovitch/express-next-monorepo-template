@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "rm -rf ./dist && tsc",
     "tsc": "tsc --noEmit",
-    "start": "node dist/src/index.js",
+    "start": "node dist/src/server.js",
     "cli:script": "tsx cli/script.ts"
   },
   "keywords": [],
