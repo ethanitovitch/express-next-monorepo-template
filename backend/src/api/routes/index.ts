@@ -12,5 +12,4 @@ router.use('/sentry', (req, res) => {
   throw new Error('Testing sentry error')
 })
 
-
 export const apiRoutes = router
