@@ -15,6 +15,7 @@ const envSchema = z.object({
         ? ['http://localhost:3000', 'http://127.0.0.1:3000']
         : '*',
     ),
+  BACKEND_URL: z.string().url().default('http://localhost:8000'),
   FRONTEND_URL: z.string().url(),
   DATABASE_URL: z.string().url(),
   DB_HOST: z.string(),
@@ -46,6 +47,7 @@ export const config = {
   port: env.PORT,
   nodeEnv: env.NODE_ENV,
   frontendUrl: env.FRONTEND_URL,
+  backendUrl: env.BACKEND_URL,
   corsOrigin: env.CORS_ORIGIN,
   databaseUrl: env.DATABASE_URL,
   db: {

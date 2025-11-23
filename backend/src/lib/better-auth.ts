@@ -22,8 +22,8 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma_OnlyForBetterAuth, {
     provider: 'postgresql',
   }),
-  trustedOrigins: ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  baseURL: 'http://localhost:8000',
+  trustedOrigins: [config.frontendUrl],
+  baseURL: config.backendUrl,
   basePath: '/api/auth',
   databaseHooks: {
     session: {
@@ -89,7 +89,7 @@ export const auth = betterAuth({
     }),
     stripe({
       stripeClient,
-      stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      stripeWebhookSecret: config.stripe.webhookSecret,
       createCustomerOnSignUp: true,
       subscription: {
         enabled: true,
