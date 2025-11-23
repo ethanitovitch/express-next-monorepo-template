@@ -24,6 +24,14 @@ Run the apps:
 ## Configuration
 - Configure authentication settings in `backend/src/lib/better-auth.ts`
 - Configure authentication emails in `backend/src/clients/email.client.ts`
+- Configuring Stripe:
+  - First create a stripe account and update the env variables, you will then need to configure webhooks.
+  - Locally run `ngrok http 8000` to get an https url for the webhooks
+  - On Stripe make sure to enable at a minimum: `checkout.session.completed`, `customer.subscription.updated` & `customer.subscription.deleted` and add the url from ngrok as the destination. 
+  - Then create products for subscriptions
+  - In `shared/types/src/stripe.ts` add payment options making sure to include the `priceIds` from stripe. You can checkout the better auth docs for more info on this: https://www.better-auth.com/docs/plugins/stripe
+  - Gotchas: The product ids and the price ids are different things. I added the product id by accident and was freaking out when nothing worked. you've been warned
+  - Stripe subscriptions will then be tied to the users which you can use for feature access
 
 ## What it comes with
 - express backend (with lots of useful features)
