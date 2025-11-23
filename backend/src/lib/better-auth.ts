@@ -77,7 +77,7 @@ export const auth = betterAuth({
     organization({
       async sendInvitationEmail(data) {
         const frontendUrl = config.frontendUrl
-        const inviteLink = `${frontendUrl}/accept-invitation/${data.id}`
+        const inviteLink = `${frontendUrl}/accept-invitation/${data.id}?email=${encodeURIComponent(data.email)}`
         await sendOrganizationInvitation({
           email: data.email,
           invitedByUsername: data.inviter.user.name,

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSession } from "@/lib/auth-client";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import AuthCard from "@/components/AuthCard";
 import Button from "@/components/ui/Button";
@@ -10,7 +10,10 @@ export default function AcceptInvitationPage() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
+  
   const invitationId = params.id as string;
+  const email = searchParams.get("email") as string;
   const [isAccepting, setIsAccepting] = useState(false);
   const [invitationAccepted, setInvitationAccepted] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
@@ -22,7 +25,7 @@ export default function AcceptInvitationPage() {
     // If not logged in, redirect to login with invitation token
     if (!session) {
       setRedirecting(true);
-      const loginUrl = `/login?inviteId=${invitationId}&redirect=${encodeURIComponent(`/accept-invitation/${invitationId}`)}`;
+      const loginUrl = `/signup?inviteId=${invitationId}&email=${email}&redirect=${encodeURIComponent(`/accept-invitation/${invitationId}`)}`;
       router.push(loginUrl);
     }
   }, [session, isPending, invitationId, router]);

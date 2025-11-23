@@ -11,16 +11,17 @@ export default function SignupPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Get invitation ID and email from query params
+  const inviteId = searchParams.get("inviteId");
+  const emailParam = searchParams.get("email");
+
   const [name,setName]=useState("");
-  const [email,setEmail]=useState("");
+  const [email,setEmail]=useState(emailParam || "");
   const [pw,setPw]=useState("");
   const [confirm,setConfirm]=useState("");
   
   const signUpMutation = useSignUpEmail();
   const socialSignInMutation = useSignInSocial();
-
-  // Get invitation ID and redirect URL from query params
-  const inviteId = searchParams.get("inviteId");
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -88,6 +89,11 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen grid place-items-center p-6">
       <AuthCard title="Create your account">
+        {inviteId && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+            Please sign up before accepting the invitation.
+          </div>
+        )}
         <form onSubmit={onSubmit} className="space-y-4">
           <Input label="Name" value={name} onChange={e=>setName(e.target.value)} />
           <Input label="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />

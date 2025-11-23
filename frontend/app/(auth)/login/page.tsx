@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthCard from "@/components/AuthCard";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSignInEmail, useSignInSocial } from "@/hooks/api/useAuth";
+import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -70,6 +71,11 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen grid place-items-center p-6">
       <AuthCard title="Welcome back">
+        {inviteId && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+            Please sign in before accepting the invitation.
+          </div>
+        )}
         <form onSubmit={onSubmit} className="space-y-4">
           <Input label="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
           <div className="space-y-2">
