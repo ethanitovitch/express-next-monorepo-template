@@ -1,6 +1,5 @@
 import { config } from '@/config'
 import { app } from '@/api/app'
-import logger from '@/lib/logger'
 
 const asciiArt = `
 ╔═══════════════════════════════════════════════════════╗

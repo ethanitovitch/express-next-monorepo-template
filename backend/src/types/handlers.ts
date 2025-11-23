@@ -1,4 +1,4 @@
-import { DBUser } from '@shared/db/src/types'
+import { DBUser, DBSession } from '@shared/db/src/types'
 import { Request, Response, NextFunction } from 'express'
 
 export interface ValidatedRequest<T> extends Request {
@@ -8,6 +8,7 @@ export interface ValidatedRequest<T> extends Request {
 // Extend Express's Request type properly
 export interface AuthRequest<T> extends ValidatedRequest<T> {
   user: DBUser
+  session: DBSession
 }
 
 export type ValidatedRequestHandler<T> = (

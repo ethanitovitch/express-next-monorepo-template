@@ -4,6 +4,7 @@ import { errorHandler } from './middlewares/errorHandler'
 import { requestLogger } from './middlewares/requestLogger'
 import { initializeAuth } from './middlewares/auth'
 import { apiRoutes } from './routes'
+import authRoutes from './routes/auth'
 import bodyParser from 'body-parser'
 import { config } from '@/config'
 import Sentry from '@/lib/sentry'
@@ -17,10 +18,12 @@ app.use(
     credentials: true,
   }),
 )
+
+app.use('/api/auth', authRoutes);
+
 app.use(express.json())
 app.use(requestLogger)
 app.use(bodyParser.json())
-initializeAuth(app)
 
 // Routes
 app.use('/api', apiRoutes)

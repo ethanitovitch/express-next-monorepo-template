@@ -15,6 +15,7 @@ const envSchema = z.object({
         ? ['http://localhost:3000', 'http://127.0.0.1:3000']
         : '*',
     ),
+  FRONTEND_URL: z.string().url(),
   DATABASE_URL: z.string().url(),
   DB_HOST: z.string(),
   DB_PORT: z.coerce.number(),
@@ -27,6 +28,12 @@ const envSchema = z.object({
   SENTRY_DSN: z.string(),
   JWT_SECRET: z.string(),
   WEBHOOK_API_KEY: z.string(),
+  STRIPE_PUBLISHABLE_KEY: z.string(),
+  STRIPE_SECRET_KEY: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  RESEND_API_KEY: z.string(),
 })
 
 const env = envSchema.parse(process.env)
@@ -38,6 +45,7 @@ export const config = {
   },
   port: env.PORT,
   nodeEnv: env.NODE_ENV,
+  frontendUrl: env.FRONTEND_URL,
   corsOrigin: env.CORS_ORIGIN,
   databaseUrl: env.DATABASE_URL,
   db: {
@@ -57,6 +65,20 @@ export const config = {
   },
   sentry: {
     dsn: env.SENTRY_DSN,
+  },
+  stripe: {
+    secretKey: env.STRIPE_SECRET_KEY,
+    webhookSecret: env.STRIPE_WEBHOOK_SECRET,
+    publishableKey: env.STRIPE_PUBLISHABLE_KEY,
+  },
+  providers: {
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    },
+  },
+  resend: {
+    apiKey: env.RESEND_API_KEY,
   },
 } as const
 

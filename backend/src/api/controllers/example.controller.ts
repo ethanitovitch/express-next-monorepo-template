@@ -1,5 +1,5 @@
 import { findById } from '@/repositories/example.repository'
-import { GetExampleRequest } from '@shared/types/requests'
+import { GetExampleRequest } from '@shared/types/src'
 import { ValidatedRequestHandler } from '@/types/handlers'
 
 export const getExample: ValidatedRequestHandler<GetExampleRequest> = async (

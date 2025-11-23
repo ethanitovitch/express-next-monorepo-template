@@ -4,6 +4,8 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import { config } from '@/config'
 import logger from '@/lib/logger'
 import { findById } from '@/repositories/user.repository'
+import { fromNodeHeaders } from 'better-auth/node'
+import { auth } from '@/lib/better-auth'
 
 export const withAuth = passport.authenticate('jwt', { session: false })
 
@@ -43,5 +45,21 @@ export const withApiKeyAuth = (
     logger.error('Unauthorized request')
     return res.status(401).json({ error: 'Unauthorized' })
   }
+  next()
+}
+
+export const withBetterAuth = async (req: Request, res: Response, next: NextFunction) => {
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  // attach to req so handlers can use it
+  (req as any).user = session.user;
+  (req as any).session = session;
+
   next()
 }

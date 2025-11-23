@@ -20,6 +20,7 @@
     "prisma": "^6.17.1"
   },
   "dependencies": {
+    "@prisma/client": "6.17.1",
     "kysely": "^0.28.8",
     "prisma-kysely": "^2.2.1"
   }

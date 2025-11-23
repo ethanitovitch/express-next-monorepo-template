@@ -11,6 +11,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.15.1",
   "dependencies": {
-    "zod": "^4.1.12"
+    "zod": "^4.1.12",
+    "@shared/db": "workspace:*"
   }
 }
