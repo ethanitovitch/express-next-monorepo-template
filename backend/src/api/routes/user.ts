@@ -5,16 +5,8 @@ import { withBetterAuth } from '../middlewares/auth'
 
 const router = Router()
 
-router.get(
-  '/me',
-  withBetterAuth,
-  authenticatedRoute<{}>(getUser),
-)
+router.get('/me', withBetterAuth, authenticatedRoute<{}>(getUser))
 
-router.get(
-  '/account',
-  withBetterAuth,
-  authenticatedRoute<{}>(getAccount),
-)
+router.get('/account', withBetterAuth, authenticatedRoute<{}>(getAccount))
 
 export default router

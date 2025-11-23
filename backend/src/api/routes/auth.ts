@@ -1,9 +1,9 @@
-import { toNodeHandler } from "better-auth/node";
-import { auth } from "@/lib/better-auth";
-import { Router } from "express";
+import { toNodeHandler } from 'better-auth/node'
+import { auth } from '@/lib/better-auth'
+import { Router } from 'express'
 
-const router = Router();
+const router = Router()
 
-router.all('/*splat', toNodeHandler(auth));
+router.all('/*splat', toNodeHandler(auth))
 
-export default router;
+export default router

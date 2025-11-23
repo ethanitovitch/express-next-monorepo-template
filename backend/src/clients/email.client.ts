@@ -1,4 +1,4 @@
-import { transporter } from '@/lib/email';
+import { transporter } from '@/lib/email'
 
 export const sendEmail = async (to: string, subject: string, text: string) => {
   await transporter.sendMail({
@@ -6,8 +6,8 @@ export const sendEmail = async (to: string, subject: string, text: string) => {
     to,
     subject,
     text,
-  });
-};
+  })
+}
 
 export const sendVerificationEmail = async (to: string, url: string) => {
   await transporter.sendMail({
@@ -65,8 +65,8 @@ export const sendVerificationEmail = async (to: string, url: string) => {
       </body>
       </html>
     `,
-  });
-};
+  })
+}
 
 export const sendResetPasswordEmail = async (to: string, url: string) => {
   await transporter.sendMail({
@@ -124,8 +124,8 @@ export const sendResetPasswordEmail = async (to: string, url: string) => {
       </body>
       </html>
     `,
-  });
-};
+  })
+}
 
 export const sendOrganizationInvitation = async ({
   email,
@@ -134,11 +134,11 @@ export const sendOrganizationInvitation = async ({
   teamName,
   inviteLink,
 }: {
-  email: string;
-  invitedByUsername: string;
-  invitedByEmail: string;
-  teamName: string;
-  inviteLink: string;
+  email: string
+  invitedByUsername: string
+  invitedByEmail: string
+  teamName: string
+  inviteLink: string
 }) => {
   await transporter.sendMail({
     from: 'update-me <noreply@update-me.com>',
@@ -195,5 +195,5 @@ export const sendOrganizationInvitation = async ({
       </body>
       </html>
     `,
-  });
-};
+  })
+}

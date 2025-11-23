@@ -19,7 +19,7 @@ app.use(
   }),
 )
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes)
 
 app.use(express.json())
 app.use(requestLogger)

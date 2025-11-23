@@ -28,7 +28,7 @@ export const getLastActiveOrganization = async (userId: string) => {
 
 export const updateUserLastActiveOrganizationId = async (
   userId: string,
-  activeOrganizationId: string
+  activeOrganizationId: string,
 ) => {
   return await db
     .updateTable('user')
@@ -37,7 +37,10 @@ export const updateUserLastActiveOrganizationId = async (
     .executeTakeFirst()
 }
 
-export const getOrganizationMember = async (organizationId: string, userId: string) => {
+export const getOrganizationMember = async (
+  organizationId: string,
+  userId: string,
+) => {
   return await db
     .selectFrom('member')
     .where('organizationId', '=', organizationId)

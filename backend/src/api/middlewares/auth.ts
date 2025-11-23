@@ -48,18 +48,22 @@ export const withApiKeyAuth = (
   next()
 }
 
-export const withBetterAuth = async (req: Request, res: Response, next: NextFunction) => {
+export const withBetterAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const session = await auth.api.getSession({
     headers: fromNodeHeaders(req.headers),
-  });
+  })
 
   if (!session) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: 'Unauthorized' })
   }
 
   // attach to req so handlers can use it
-  (req as any).user = session.user;
-  (req as any).session = session;
+  ;(req as any).user = session.user
+  ;(req as any).session = session
 
   next()
 }
