@@ -9,12 +9,12 @@ const envSchema = z.object({
     .enum(['development', 'production', 'test'])
     .default('development'),
   CORS_ORIGIN: z
-    .union([z.string(), z.array(z.string())])
-    .default(
-      process.env.NODE_ENV === 'production'
-        ? ['http://localhost:3000', 'http://127.0.0.1:3000']
-        : '*',
-    ),
+    .string()
+    .default('*')
+    .transform((val) => {
+      if (val === '*') return '*'
+      return val.includes(',') ? val.split(',').map((s) => s.trim()) : val
+    }),
   BACKEND_URL: z.string().url().default('http://localhost:8000'),
   FRONTEND_URL: z.string().url(),
   DATABASE_URL: z.string().url(),
@@ -39,6 +39,12 @@ const envSchema = z.object({
 
 const env = envSchema.parse(process.env)
 
+const getTrustedOrigins = (corsOrigin: string | string[]): string[] => {
+  if (corsOrigin === '*') return [env.FRONTEND_URL]
+  if (Array.isArray(corsOrigin)) return corsOrigin
+  return [corsOrigin]
+}
+
 export const config = {
   webhookApiKey: env.WEBHOOK_API_KEY,
   jwt: {
@@ -49,6 +55,7 @@ export const config = {
   frontendUrl: env.FRONTEND_URL,
   backendUrl: env.BACKEND_URL,
   corsOrigin: env.CORS_ORIGIN,
+  trustedOrigins: getTrustedOrigins(env.CORS_ORIGIN),
   databaseUrl: env.DATABASE_URL,
   db: {
     host: env.DB_HOST,

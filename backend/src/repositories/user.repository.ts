@@ -18,8 +18,10 @@ export const findAccountByUserId = async (userId: string) => {
   return account
 }
 
-
-export const isMemberOfOrganization = async (userId: string, organizationId: string) => {
+export const isMemberOfOrganization = async (
+  userId: string,
+  organizationId: string,
+) => {
   const member = await db
     .selectFrom('member')
     .where('userId', '=', userId)

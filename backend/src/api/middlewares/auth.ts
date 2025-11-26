@@ -7,7 +7,10 @@ import { findById } from '@/repositories/user.repository'
 import { fromNodeHeaders } from 'better-auth/node'
 import { auth } from '@/lib/better-auth'
 import { AuthRequest } from '@/types/handlers'
-import { doesMemberHaveRole, isMemberOfOrganization } from '@/services/organization.service'
+import {
+  doesMemberHaveRole,
+  isMemberOfOrganization,
+} from '@/services/organization.service'
 import { OrganizationRole } from '@shared/types/src/organization'
 
 export const withAuth = passport.authenticate('jwt', { session: false })
@@ -71,7 +74,6 @@ export const withBetterAuth = async (
   next()
 }
 
-
 export const validateMemberOfOrganization = async (
   req: Request,
   res: Response,
@@ -91,7 +93,11 @@ export const validateMemberOfOrganizationIs =
   async (req: Request, res: Response, next: NextFunction) => {
     const authReq = req as AuthRequest<{ organizationId: string }>
     const { organizationId } = req.validated
-    const hasRole = await doesMemberHaveRole(authReq.user.id, organizationId, roles)
+    const hasRole = await doesMemberHaveRole(
+      authReq.user.id,
+      organizationId,
+      roles,
+    )
     if (!hasRole) {
       return res.status(401).json({ error: 'Unauthorized' })
     }
