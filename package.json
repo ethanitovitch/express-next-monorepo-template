@@ -18,6 +18,12 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.19.0",
+  "pnpm": {
+    "overrides": {
+      "prisma": "^6.17.1",
+      "@prisma/client": "^6.17.1"
+    }
+  },
   "devDependencies": {
     "husky": "^8.0.0",
     "lint-staged": "^16.2.5",

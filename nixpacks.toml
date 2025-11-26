@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ['nodejs_20', 'pnpm']
+
+[phases.install]
+cmds = ['pnpm install']
+
+[phases.build]
+cmds = [
+  'pnpm --filter @shared/db db:generate',
+  'pnpm --filter backend build'
+]
+
+[start]
+cmd = "NODE_ENV=production pnpm --filter @shared/db db:generate && pnpm --filter @shared/db db:deploy && NODE_ENV=production node backend/dist/server.mjs"
+
