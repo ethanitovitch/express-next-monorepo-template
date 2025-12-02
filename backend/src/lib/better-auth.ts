@@ -17,6 +17,8 @@ import {
 import { stripeClient } from '@/lib/stripe'
 import { STRIPE_PLANS } from '@shared/types/src/stripe'
 import { config } from '@/config'
+import { admin } from 'better-auth/plugins'
+import { handleInvoicePaid } from '@/services/subscription.service'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma_OnlyForBetterAuth, {
@@ -87,10 +89,19 @@ export const auth = betterAuth({
         })
       },
     }),
+    admin(),
     stripe({
       stripeClient,
       stripeWebhookSecret: config.stripe.webhookSecret,
       createCustomerOnSignUp: true,
+      onEvent: async (event: any) => {
+        // Handle any Stripe event
+        switch (event.type) {
+          case 'invoice.paid':
+            await handleInvoicePaid(event)
+            break
+        }
+      },
       subscription: {
         enabled: true,
         authorizeReference: async ({ user, referenceId, action }) => {

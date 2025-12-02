@@ -6,6 +6,7 @@ import {
 } from '@/types/handlers'
 import { RequestHandler } from 'express'
 import { setRequestContext } from '@/lib/context'
+import { DBUser } from '@shared/types/src'
 
 export const validatedRoute = <T>(
   handler: ValidatedRequestHandler<T>,
@@ -26,4 +27,15 @@ export const authenticatedRoute = <T>(
     setRequestContext('userId', (req.user as any).id)
     return handler(req as AuthRequest<T>, res, next)
   }
+}
+
+export const adminOnlyRoute = <T>(
+  handler: AuthRequestHandler<T>,
+): RequestHandler => {
+  return authenticatedRoute<T>(async (req, res, next) => {
+    if ((req.user as DBUser).role !== 'admin') {
+      return res.status(403).json({ error: 'Forbidden' })
+    }
+    return handler(req, res, next)
+  })
 }

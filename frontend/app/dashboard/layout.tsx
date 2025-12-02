@@ -9,16 +9,18 @@ import {
   useOrganizations,
 } from "@/hooks/api/useOrganization";
 import CreateOrganizationModal from "@/components/organization/CreateOrganizationModal";
-import { useActiveOrganization } from "@/lib/auth-client";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { data: session, isPending } = useSession();
   const router = useRouter();
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [manualShowCreateModal, setManualShowCreateModal] = useState(false);
   const [modalAllowClose, setModalAllowClose] = useState(false);
   const { isLoading: isLoadingOrgs } = useOrganizations();
   const { data: organizations } = useOrganizations();
-  const activeOrganization = useActiveOrganization();
+
+  // Derive whether to show modal from data
+  const hasNoOrgs = !isPending && !isLoadingOrgs && session && organizations?.data?.length === 0;
+  const showCreateModal = hasNoOrgs || manualShowCreateModal;
 
   useEffect(() => {
     if (!isPending && !session) {
@@ -26,20 +28,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       router.push("/login");
     }
   }, [session, isPending, router]);
-
-  // Handle organization setup
-  useEffect(() => {
-    if (isPending || !session || isLoadingOrgs) return;
-
-    // No orgs - show create modal
-    if (organizations?.data?.length === 0) {
-      setShowCreateModal(true);
-      setModalAllowClose(false);
-    } else {
-      setShowCreateModal(false);
-      setModalAllowClose(false);
-    }
-  }, [isPending, session, isLoadingOrgs, organizations?.data?.length, activeOrganization]);
 
   if (isPending) {
     return (
@@ -60,15 +48,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const handleCreateSuccess = () => {
     // No need to invalidate - the store is already updated by the mutation
-    setShowCreateModal(false);
+    setManualShowCreateModal(false);
   };
 
   const handleOpenCreateOrg = () => {
     setModalAllowClose(true); // Allow closing when creating additional orgs
-    setShowCreateModal(true);
+    setManualShowCreateModal(true);
   };
-
-  const hasNoOrganizations = !isLoadingOrgs && organizations?.data?.length === 0;
 
   return (
     <>
@@ -83,9 +69,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       <CreateOrganizationModal
         isOpen={showCreateModal}
-        onClose={hasNoOrganizations ? () => {} : () => setShowCreateModal(false)}
+        onClose={hasNoOrgs ? () => {} : () => setManualShowCreateModal(false)}
         onSuccess={handleCreateSuccess}
-        allowClose={modalAllowClose}
+        allowClose={modalAllowClose || !hasNoOrgs}
       />
     </>
   );

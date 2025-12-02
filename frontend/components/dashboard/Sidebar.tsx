@@ -4,11 +4,12 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Settings, LogOut, ChevronDown, Plus } from "lucide-react";
+import { Home, Settings, LogOut, ChevronDown, Plus, Shield } from "lucide-react";
 import { useOrganizations, useSetActiveOrganizationMutation } from "@/hooks/api/useOrganization";
 import { toast } from "sonner";
 import { useActiveOrganization } from "@/lib/auth-client";
 import { useOrganizationSubscription } from "@/hooks/api/useStripe";
+import { useSession } from "@/lib/auth-client";
 
 const nav = [
   { href: "/dashboard",  label: "Home",  icon: Home },
@@ -16,6 +17,10 @@ const nav = [
 
 const bottom = [
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
+];
+
+const adminNav = [
+  { href: "/dashboard/admin", label: "Admin", icon: Shield },
 ];
 
 export default function Sidebar({
@@ -33,7 +38,9 @@ export default function Sidebar({
   const { data: organizations } = useOrganizations();
   const setActiveMutation = useSetActiveOrganizationMutation();
   const { data: subscription } = useOrganizationSubscription(activeOrganization?.data?.id);
-
+  const { data: session } = useSession();
+  const isAdmin = (session?.user as any)?.role === "admin";
+  
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -131,7 +138,18 @@ export default function Sidebar({
                 onClick={() => setMobileMenuOpen(false)}
               />
             ))}
-            
+
+            {isAdmin && adminNav.map((n) => (
+              <Item
+                key={n.href}
+                href={n.href}
+                label={n.label}
+                icon={n.icon}
+                active={pathname?.startsWith(n.href)}
+                onClick={() => setMobileMenuOpen(false)}
+              />
+            ))}
+              
             <div className="pt-2 mt-2 border-t border-gray-200 space-y-2">
               {bottom.map((n) => (
                 <Item
@@ -237,6 +255,15 @@ export default function Sidebar({
               label={n.label}
               icon={n.icon}
               active={n.href === "/dashboard" ? pathname === n.href : pathname?.startsWith(n.href)}
+            />
+          ))}
+          {isAdmin && adminNav.map((n) => (
+            <Item
+              key={n.href}
+              href={n.href}
+              label={n.label}
+              icon={n.icon}
+              active={pathname?.startsWith(n.href)}
             />
           ))}
         </nav>

@@ -20,6 +20,16 @@ export type Account = {
   createdAt: Generated<Timestamp>
   updatedAt: Timestamp
 }
+export type CreditTransaction = {
+  id: string
+  organizationId: string
+  paymentInvoiceId: string
+  amount: number
+  type: string
+  metadata: unknown
+  createdAt: Generated<Timestamp>
+  updatedAt: Timestamp
+}
 export type Example = {
   id: string
   name: string
@@ -61,6 +71,7 @@ export type Session = {
   userAgent: string | null
   userId: string
   activeOrganizationId: string | null
+  impersonatedBy: string | null
 }
 export type Subscription = {
   id: string
@@ -84,9 +95,12 @@ export type User = {
   emailVerified: Generated<boolean>
   name: string | null
   image: string | null
-  permission: Generated<string>
   stripeCustomerId: string | null
   lastActiveOrganizationId: string | null
+  role: string | null
+  banned: Generated<boolean | null>
+  banReason: string | null
+  banExpires: Timestamp | null
 }
 export type Verification = {
   id: string
@@ -98,6 +112,7 @@ export type Verification = {
 }
 export type DB = {
   account: Account
+  credit_transaction: CreditTransaction
   example: Example
   invitation: Invitation
   member: Member

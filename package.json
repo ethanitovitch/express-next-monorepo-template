@@ -21,7 +21,9 @@
   "pnpm": {
     "overrides": {
       "prisma": "^6.17.1",
-      "@prisma/client": "^6.17.1"
+      "@prisma/client": "^6.17.1",
+      "@types/react": "19.2.7",
+      "@types/react-dom": "19.2.3"
     }
   },
   "devDependencies": {

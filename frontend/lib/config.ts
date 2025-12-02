@@ -25,7 +25,14 @@ export const ENDPOINTS = {
   },
   ORGANIZATION: {
     INVITE_MEMBER: '/auth/organization/invite-member',
-  }
+    CREDIT_BALANCE: (orgId: string) => `/organization/${orgId}/credit-balance`,
+  },
+  ADMIN: {
+    STATS: '/admin/stats',
+    USERS: '/admin/users',
+    ORGANIZATIONS: '/admin/organizations',
+    ADD_CREDITS: (organizationId: string) => `/admin/organizations/${organizationId}/credits`,
+  },
 };
 
 export const QUERY_KEYS = {
@@ -33,4 +40,9 @@ export const QUERY_KEYS = {
   userAccount: () => ['user', 'account'] as const,
   organizationMembers: (orgId?: string) => ['organization', 'members', orgId] as const,
   organizationInvitations: (orgId?: string) => ['organization', 'invitations', orgId] as const,
+  organizationCreditBalance: (orgId?: string) => ['organization', 'credit-balance', orgId] as const,
+  adminStats: () => ['admin', 'stats'] as const,
+  adminUsers: () => ['admin', 'users'] as const,
+  adminOrganizations: () => ['admin', 'organizations'] as const,
+  adminAddCredits: (organizationId?: string) => ['admin', 'organizations', organizationId, 'credits'] as const,
 };

@@ -99,7 +99,7 @@ export default function SignupPage() {
           <Input label="Email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
           <Input label="Password" type={"password"} value={pw} onChange={e=>setPw(e.target.value)} required />
           <Input label="Confirm password" type={"password"} value={confirm} onChange={e=>setConfirm(e.target.value)} required />
-          <Button type="submit" loading={signUpMutation.isPending} className="w-full">Create account</Button>
+          <Button type="submit" disabled={signUpMutation.isPending} className="w-full">Create account</Button>
           
           {/* Divider */}
           <div className="relative flex items-center py-4">

@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator prisma {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -21,37 +21,42 @@ datasource db {
 }
 
 model User {
-  id                       String   @id @default(uuid())
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @default(now()) @updatedAt
+  id                       String    @id @default(uuid())
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @default(now()) @updatedAt
   email                    String
-  emailVerified            Boolean  @default(false)
+  emailVerified            Boolean   @default(false)
   name                     String?
   image                    String?
-  permission               String   @default("USER")
   stripeCustomerId         String?
   lastActiveOrganizationId String?
+  role                     String?
+  banned                   Boolean?  @default(false)
+  banReason                String?
+  banExpires               DateTime?
 
-  sessions        Session[]
-  accounts        Account[]
-  members         Member[]
-  invitations     Invitation[]
+  sessions    Session[]
+  accounts    Account[]
+  members     Member[]
+  invitations Invitation[]
 
   @@unique([email])
   @@map("user")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   String   @id
+  expiresAt            DateTime
+  token                String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  ipAddress            String?
+  userAgent            String?
+  userId               String
   activeOrganizationId String?
+  impersonatedBy       String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -88,14 +93,15 @@ model Verification {
 }
 
 model Organization {
-  id          String       @id
-  name        String
-  slug        String
-  logo        String?
-  createdAt   DateTime
-  metadata    String?
-  members     Member[]
-  invitations Invitation[]
+  id                 String              @id
+  name               String
+  slug               String
+  logo               String?
+  createdAt          DateTime
+  metadata           String?
+  members            Member[]
+  invitations        Invitation[]
+  creditTransactions CreditTransaction[]
 
   @@unique([slug])
   @@map("organization")
@@ -145,9 +151,23 @@ model Subscription {
   @@map("subscription")
 }
 
+model CreditTransaction {
+  id               String       @id @default(uuid())
+  organizationId   String
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  paymentInvoiceId String
+  amount           Int
+  type             String
+  metadata         Json
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@map("credit_transaction")
+}
+
 model Example {
-  id String @id @default(uuid())
-  name String
+  id        String   @id @default(uuid())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

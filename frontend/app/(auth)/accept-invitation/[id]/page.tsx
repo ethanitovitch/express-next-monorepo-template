@@ -121,7 +121,6 @@ export default function AcceptInvitationPage() {
           <div className="space-y-3">
             <Button
               onClick={handleAcceptInvitation}
-              loading={isAccepting}
               disabled={isAccepting}
               className="w-full"
             >

@@ -1,13 +1,19 @@
 import { Router } from 'express'
 import exampleRoutes from './example'
+import adminRoutes from './admin'
+import organizationRoutes from './organization'
+import userRoutes from './user'
 
 const router = Router()
 
 router.get('/health', (req, res) => {
   res.json({ status: 'ok' })
 })
-router.use('/example', exampleRoutes)
 
+router.use('/example', exampleRoutes)
+router.use('/admin', adminRoutes)
+router.use('/organization', organizationRoutes)
+router.use('/user', userRoutes)
 router.use('/sentry', (req, res) => {
   throw new Error('Testing sentry error')
 })

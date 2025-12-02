@@ -2,7 +2,8 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { organization, useActiveOrganization } from '@/lib/auth-client';
-import { QUERY_KEYS } from '@/lib/config';
+import { ENDPOINTS, QUERY_KEYS } from '@/lib/config';
+import { get } from '@/lib/api';
 
 export function useOrganizations() {
   
@@ -139,5 +140,19 @@ export const useRemoveOrganizationMember = () => {
         queryClient.invalidateQueries({ queryKey: QUERY_KEYS.organizationMembers(activeOrganization.data?.id) });
       }
     }
+  });
+}
+
+export function useOrganizationCreditBalance() {
+  const activeOrganization = useActiveOrganization();
+  const orgId = activeOrganization?.data?.id;
+
+  return useQuery({
+    queryKey: QUERY_KEYS.organizationCreditBalance(orgId),
+    queryFn: async () => {
+      const result = await get<{ balance: number }>(ENDPOINTS.ORGANIZATION.CREDIT_BALANCE(orgId!));
+      return result.balance;
+    },
+    enabled: !!orgId,
   });
 }

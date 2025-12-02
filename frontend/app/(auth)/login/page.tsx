@@ -86,7 +86,7 @@ export default function LoginPage() {
               </a>
             </div>
           </div>
-          <Button type="submit" loading={signInMutation.isPending} className="w-full">Sign in</Button>
+          <Button type="submit" disabled={signInMutation.isPending} className="w-full">Sign in</Button>
           
           {/* Divider */}
           <div className="relative flex items-center py-4">

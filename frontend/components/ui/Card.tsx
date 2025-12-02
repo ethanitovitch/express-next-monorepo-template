@@ -1,36 +1,127 @@
-"use client";
-import React from "react";
+import * as React from "react"
 
-type Size = "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+import { cn } from "@/lib/utils"
+
+function Card({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card"
+      className={cn(
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn(
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-title"
+      className={cn("leading-none font-semibold", className)}
+      {...props}
+    />
+  )
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-description"
+      className={cn("text-muted-foreground text-sm", className)}
+      {...props}
+    />
+  )
+}
+
+function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-action"
+      className={cn(
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-content"
+      className={cn("px-6", className)}
+      {...props}
+    />
+  )
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-footer"
+      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
+      {...props}
+    />
+  )
+}
+
+// Legacy Card with title prop for backward compatibility
+type Size = "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl"
 
 const sizeClass: Record<Size, string> = {
-  md:  "max-w-md",
-  lg:  "max-w-lg",
-  xl:  "max-w-xl",
+  md: "max-w-md",
+  lg: "max-w-lg",
+  xl: "max-w-xl",
   "2xl": "max-w-2xl",
   "3xl": "max-w-3xl",
   "4xl": "max-w-4xl",
-};
+}
 
-export default function Card({
+function LegacyCard({
   title,
   children,
   size,
   className = "",
 }: {
-  title: string;
-  children: React.ReactNode;
-  size?: Size;
-  className?: string;
+  title: string
+  children: React.ReactNode
+  size?: Size
+  className?: string
 }) {
   return (
-    <div
-      className={`w-full ${size ? sizeClass[size] : ''} rounded-2xl border border-gray-200 bg-white/90 p-6 md:p-8 shadow-sm overflow-hidden ${className}`}
-    >
-      <h2 className="mb-6 text-xl font-semibold text-gray-900">
-        {title}
-      </h2>
-      {children}
-    </div>
-  );
+    <Card className={cn(size && sizeClass[size], className)}>
+      <CardHeader>
+        <CardTitle className="text-xl">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+    </Card>
+  )
 }
+
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+}
+
+export default LegacyCard

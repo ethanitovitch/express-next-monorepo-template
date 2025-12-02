@@ -1,6 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 import { organizationClient } from "better-auth/client/plugins"
 import { stripeClient } from "@better-auth/stripe/client"
+import { adminClient } from "better-auth/client/plugins"
 import { env } from "./config";
 
 export const authClient = createAuthClient({
@@ -8,7 +9,8 @@ export const authClient = createAuthClient({
     organizationClient(), 
     stripeClient({
       subscription: true,
-    })
+    }),
+    adminClient()
   ],
   baseURL: env.API_URL.toString() + "/auth",
   fetchOptions: {
@@ -25,4 +27,5 @@ export const {
   organization,
   useActiveOrganization,
   subscription,
+  admin,
 } = authClient;

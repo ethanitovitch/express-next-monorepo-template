@@ -120,7 +120,6 @@ export default function CreateOrganizationModal({
         <div className="flex gap-3 pt-2">
           <Button
             type="submit"
-            loading={isCreating}
             disabled={isCreating}
             className="flex-1"
           >

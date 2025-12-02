@@ -166,7 +166,7 @@ export default function ResetPasswordPage() {
               required
               minLength={8}
             />
-            <Button type="submit" loading={resetPasswordMutation.isPending} className="w-full">
+            <Button type="submit" disabled={resetPasswordMutation.isPending} className="w-full">
               Reset Password
             </Button>
             
@@ -203,7 +203,7 @@ export default function ResetPasswordPage() {
             required
           />
           
-          <Button type="submit" loading={forgotPasswordMutation.isPending} className="w-full">
+          <Button type="submit" disabled={forgotPasswordMutation.isPending} className="w-full">
             Send Reset Link
           </Button>
           
