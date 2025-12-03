@@ -9,7 +9,7 @@ export const pushNotification = async (
 ) => {
   const pusher = getPusher()
   if (!pusher) return
-  
+
   return pusher.trigger(
     channels.privateUser(userId),
     PUSHER_EVENTS.NOTIFICATION,
@@ -21,6 +21,6 @@ export const pushNotification = async (
 export const authorizeChannel = (socketId: string, channel: string) => {
   const pusher = getPusher()
   if (!pusher) return null
-  
+
   return pusher.authorizeChannel(socketId, channel)
 }

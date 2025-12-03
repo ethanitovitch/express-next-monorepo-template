@@ -39,13 +39,19 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string(),
   MCP_API_KEY: z.string(),
   // Pusher/Soketi
-  PUSHER_ENABLED: z.string().default('false').transform((val) => val === 'true'),
+  PUSHER_ENABLED: z
+    .string()
+    .default('false')
+    .transform((val) => val === 'true'),
   PUSHER_APP_ID: z.string().default('app-id'),
   PUSHER_KEY: z.string().default('app-key'),
   PUSHER_SECRET: z.string().default('app-secret'),
   PUSHER_HOST: z.string().default('localhost'),
   PUSHER_PORT: z.coerce.number().default(6001),
-  PUSHER_USE_TLS: z.string().default('false').transform((val) => val === 'true'),
+  PUSHER_USE_TLS: z
+    .string()
+    .default('false')
+    .transform((val) => val === 'true'),
 })
 
 const env = envSchema.parse(process.env)

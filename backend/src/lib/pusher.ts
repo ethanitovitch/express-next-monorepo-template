@@ -5,7 +5,7 @@ let pusherInstance: Pusher | null = null
 
 export const getPusher = (): Pusher | null => {
   if (!config.pusher.enabled) return null
-  
+
   if (!pusherInstance) {
     pusherInstance = new Pusher({
       appId: config.pusher.appId,
@@ -16,7 +16,7 @@ export const getPusher = (): Pusher | null => {
       useTLS: config.pusher.useTLS,
     })
   }
-  
+
   return pusherInstance
 }
 
