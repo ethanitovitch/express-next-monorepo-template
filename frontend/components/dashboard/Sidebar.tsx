@@ -27,10 +27,13 @@ const adminNav = [
 export default function Sidebar({
   onLogout,
   onOpenCreateOrg,
+  variant = "fixed",
 }: { 
   onLogout?: () => void;
   onOpenCreateOrg?: () => void;
+  variant?: "fixed" | "embedded";
 }) {
+  const isEmbedded = variant === "embedded";
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [orgDropdownOpen, setOrgDropdownOpen] = useState(false);
@@ -86,10 +89,162 @@ export default function Sidebar({
     </Link>
   );
 
+  // Don't render mobile nav in embedded mode (parent handles it)
+  if (isEmbedded) {
+    return (
+      <aside
+        className="w-full h-full px-3 py-4 md:px-4 md:py-6 flex flex-col"
+      >
+        {/* Top: logo / app name */}
+        <div className="mt-2 mb-8 px-2">
+          <Link href="/dashboard" className="text-xl font-semibold tracking-tight text-foreground hover:opacity-80 transition">
+            Update Me
+          </Link>
+        </div>
+        
+        <div className="border-b border-border mb-6" />
+
+        {/* Primary nav */}
+        <nav className="space-y-2">
+          {nav.map((n) => (
+            <Item
+              key={n.href}
+              href={n.href}
+              label={n.label}
+              icon={n.icon}
+              active={n.href === "/dashboard" ? pathname === n.href : pathname?.startsWith(n.href)}
+            />
+          ))}
+          {isAdmin && adminNav.map((n) => (
+            <Item
+              key={n.href}
+              href={n.href}
+              label={n.label}
+              icon={n.icon}
+              active={pathname?.startsWith(n.href)}
+            />
+          ))}
+        </nav>
+
+        {/* Subscription Card - Only show if not subscribed */}
+        {!subscription && (
+          <div className="flex-1 flex items-center justify-center px-2">
+            <div className="rounded-xl bg-gradient-to-b from-muted to-card p-6 py-8 flex flex-col items-center justify-center w-full border border-border">
+              <h3 className="text-base font-semibold text-foreground mb-1">
+                Make it happen
+              </h3>
+              <p className="text-xs text-muted-foreground mb-3 text-center">
+                Subscribe to get full access to Update Me
+              </p>
+              <Link 
+                href="/dashboard/settings"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium py-2 px-4 rounded-lg transition text-center"
+              >
+                Subscribe
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom actions pinned */}
+        <div className="mt-auto space-y-2 pt-6 border-t border-border">
+          {bottom.map((n) => (
+            <Item
+              key={n.href}
+              href={n.href}
+              label={n.label}
+              icon={n.icon}
+              active={pathname?.startsWith(n.href)}
+            />
+          ))}
+
+          {/* Organization Switcher */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setOrgDropdownOpen(!orgDropdownOpen)}
+              className="
+                group flex w-full items-center justify-between gap-3 rounded-xl pl-1 pr-3 py-2 text-sm font-medium
+                text-foreground hover:bg-muted transition border border-border
+              "
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary-foreground font-semibold text-sm">
+                    {activeOrganization?.data?.name?.charAt(0).toUpperCase() || "O"}
+                  </span>
+                </div>
+                <span className="truncate text-foreground">{activeOrganization?.data?.name || "Organization"}</span>
+              </div>
+              <ChevronDown className={`h-4 w-4 transition-transform flex-shrink-0 ${orgDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown */}
+            {orgDropdownOpen && (
+              <div className="absolute bottom-full left-0 right-0 mb-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50">
+                <div className="max-h-64 overflow-y-auto">
+                  {organizations?.data?.map((org) => (
+                    <button 
+                      key={org.id}
+                      onClick={() => handleSwitchOrg(org.id)}
+                      disabled={setActiveMutation.isPending}
+                      className={`
+                        w-full flex items-center gap-3 px-3 py-2 text-sm
+                        hover:bg-muted/50 transition text-left
+                        ${org.id === activeOrganization?.data?.id ? 'bg-muted' : ''}
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                      `}
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                        <span className="text-primary-foreground font-semibold text-sm">
+                          {org.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <span className="truncate text-foreground">{org.name}</span>
+                      {org.id === activeOrganization?.data?.id && (
+                        <span className="ml-auto text-xs text-primary">✓</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+                
+                <div className="border-t border-border">
+                  <button
+                    onClick={() => {
+                      setOrgDropdownOpen(false);
+                      onOpenCreateOrg?.();
+                    }}
+                    className="
+                      w-full flex items-center gap-3 px-3 py-2 text-sm font-medium
+                      text-primary hover:bg-muted/50 transition
+                    "
+                  >
+                    <Plus className="h-5 w-5" />
+                    <span>Create Organization</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={onLogout}
+            className="
+              group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium
+              text-destructive hover:bg-destructive/10 transition
+            "
+          >
+            <LogOut className="h-5 w-5" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <>
       {/* Mobile Top Nav */}
-      <div className="sm:hidden fixed top-0 left-0 right-0 z-30 bg-card/90 backdrop-blur border-b border-border">
+      <div className="sm:hidden fixed top-2 left-2 right-2 z-30 bg-card rounded-2xl border border-border shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
           <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-foreground hover:opacity-80 transition">
             Update Me
@@ -128,7 +283,7 @@ export default function Sidebar({
             mobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0",
           ].join(" ")}
         >
-          <nav className="px-4 py-4 space-y-2 border-t border-border">
+          <nav className="px-4 py-4 space-y-2 border-t border-border rounded-b-2xl">
             {nav.map((n) => (
               <Item
                 key={n.href}
@@ -229,18 +384,19 @@ export default function Sidebar({
 
       {/* Desktop Sidebar */}
       <aside
-        className="
-          fixed inset-y-0 left-0 z-20
-          w-60 md:w-64
-          border-r border-border bg-card/90 backdrop-blur
+        className={`
+          ${isEmbedded 
+            ? "w-full h-full" 
+            : "fixed top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4 bottom-2 sm:bottom-3 md:bottom-4 z-20 w-56 md:w-60 border border-border bg-card rounded-2xl shadow-sm"
+          }
           px-3 py-4 md:px-4 md:py-6
           hidden sm:flex
           flex-col
-        "
+        `}
       >
         {/* Top: logo / app name */}
-        <div className="mb-5 px-2">
-          <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-foreground hover:opacity-80 transition">
+        <div className="mt-2 mb-5 px-2">
+          <Link href="/dashboard" className="text-xl font-semibold tracking-tight text-foreground hover:opacity-80 transition">
             Update Me
           </Link>
         </div>

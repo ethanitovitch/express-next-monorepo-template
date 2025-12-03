@@ -21,6 +21,10 @@ Run the apps:
 - Server: cd into backend and run `pnpm run dev`
 - Frontend: cd into frontend and run `pnpm run dev`
 
+Bonus:
+- In your cursor settings under rules and commands enable `include CLAUDE.md in context` this will use the current claude md file to help llms add features that follow the template patterns
+- After you create an account, make your user role `admin` this will allow you to see the Admin & Theme Builder pages
+
 ## Configuration
 - Configure authentication settings in `backend/src/lib/better-auth.ts`
 - Configure authentication emails in `backend/src/clients/email.client.ts`
