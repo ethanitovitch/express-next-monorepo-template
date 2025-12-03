@@ -1,11 +1,12 @@
 # Express Nextjs Monorepo Template
 
 ## Overview
-Got annoyed rebuilding the same project every time I wanted to start something new so I put all the reusable pieces into one template and made it open source for everyone to use.
+- Got annoyed rebuilding the same project every time I wanted to start something new so I put all the reusable pieces into one template and made it open source for everyone to use. 
+- The repo is designed to give you all the code necessary to start a new project and deploy it. Things are setup to self host in production but I used open source projects that use comonly used paid service interfaces so if you don't want to self host you can easily use paid services by changing environment variables
 
 ## Getting started
 Setup Infra: `docker compose up`
-- This will setup postgres, redis & mailhog
+- This will setup postgres, redis, mailhog (for intercepting emails in dev), glitch tip (self hosted sentry), soketi (self hosted pusher)
 - gotchas: Postgres & redis are running on `5433` & `6380` to not conflict with setups you might already have. Mailhog is on `1025` with the UI on `8025`
 
 Install dependencies: run `pnpm install` from the root
@@ -27,6 +28,8 @@ Bonus:
 
 ## Configuration
 - Configure authentication settings in `backend/src/lib/better-auth.ts`
+    - For each provider you chose for oauth you will need to setup developer apps and add the env variables
+    - Check out the better auth documentation for more details: https://www.better-auth.com/docs/authentication/github
 - Configure authentication emails in `backend/src/clients/email.client.ts`
 - Configuring Stripe:
   - First create a stripe account and update the env variables, you will then need to configure webhooks.
@@ -36,12 +39,21 @@ Bonus:
   - In `shared/types/src/stripe.ts` add payment options making sure to include the `priceIds` from stripe. You can checkout the better auth docs for more info on this: https://www.better-auth.com/docs/plugins/stripe
   - Gotchas: The product ids and the price ids are different things. I added the product id by accident and was freaking out when nothing worked. you've been warned
   - Stripe subscriptions will then be tied to the users which you can use for feature access
+- Make accounts for:
+    - Axiom (for logging): update env variables in the backend
+    - Posthog (frontend analytics): update env variables in the frontend
+    - Resend (for sending emails): update env variables in the backend
+    - GlitchTip Or Sentry (for error logging): if GlitchTip yol have to go the url its running at and make an account, for sentry go to sentry and make an account, then update the backend env variables
+
 
 ## What it comes with
 - express backend (with lots of useful features)
 - next js frontend
 - shared folder for types & utilities
 - full authentication with organization and payments through better auth
+- real time notifications and channels using soketi
+- background jobs with bullmq
+- analytics with posthog, google & vercel
 - nx for faster builds
 - eslint & prettier
 
@@ -88,6 +100,8 @@ The backend comes with a lot of features I typically needed to copy paste from o
 - authentication
 - organizations
 - payments
+- notifications
+- mcp interface
 
 Additionally, the backend is setup with a shared types folder so it's easy to setup with a frontend.
 
@@ -98,6 +112,8 @@ Additionally, the backend is setup with a shared types folder so it's easy to se
 - settings around the main user, orgs and payments
 - ability to create new orgs, invite users with different roles
 - payments
+- admin dashboard + user impersonation
+- theme builder
 
 # Deployment
 - My favourite way to deploy is frontend on vercel & coolify on heztner with cloudflare, I was able to get this setup into production pretty easily
@@ -132,6 +148,8 @@ Additionally, the backend is setup with a shared types folder so it's easy to se
       - On coolify go to S3 storages and create a new S3 storage using the R2 details
       - In your database configuration page go to backups and add a backup using your s3 configuration
   - Create a resource for Redis
+  - Create a resource for GlitchTip (or Sentry)
+  - Create a resource for SOketi (If you're using sockets)
   - Create a resource for your backend from Private git repository
     - You will need to connect your github and select the repo
     - It should pickup the nixpacks file and be good to deploy, you just need to add all your production env variables obvs
