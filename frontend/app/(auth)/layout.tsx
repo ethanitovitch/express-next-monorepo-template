@@ -22,8 +22,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   if (isPending) {
     return (
-      <div className="min-h-screen grid place-items-center">
-        <div className="text-gray-500">Loading...</div>
+      <div className="min-h-screen grid place-items-center bg-background">
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -35,4 +35,3 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return <>{children}</>;
 }
-

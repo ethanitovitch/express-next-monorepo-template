@@ -247,19 +247,19 @@ export default function SettingsPage() {
           <div className="space-y-6">
             {/* Account Information */}
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-gray-900">Profile</h3>
+              <h3 className="text-sm font-semibold text-foreground">Profile</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-foreground mb-1">
                     Name
                   </label>
-                  <p className="text-gray-900">{user?.name || "N/A"}</p>
+                  <p className="text-foreground">{user?.name || "N/A"}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-foreground mb-1">
                     Email
                   </label>
-                  <p className="text-gray-900">{user?.email || "N/A"}</p>
+                  <p className="text-foreground">{user?.email || "N/A"}</p>
                 </div>
               </div>
             </div>
@@ -267,9 +267,9 @@ export default function SettingsPage() {
             {/* Change Password - Only for email/password users */}
             {hasPasswordAuth && (
               <>
-                <div className="border-t border-gray-200" />
+                <div className="border-t border-border" />
                 <div className="space-y-4">
-                  <h3 className="text-sm font-semibold text-gray-900">Change Password</h3>
+                  <h3 className="text-sm font-semibold text-foreground">Change Password</h3>
                   <form onSubmit={handleChangePassword} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <Input
@@ -307,11 +307,11 @@ export default function SettingsPage() {
             {/* Billing - Only for admin/owner */}
             {(isAdmin || isOwner) && (
               <>
-                <div className="border-t border-gray-200" />
+                <div className="border-t border-border" />
                 <div className="space-y-4">
-                  <h3 className="text-sm font-semibold text-gray-900">Billing</h3>
+                  <h3 className="text-sm font-semibold text-foreground">Billing</h3>
                   {subscriptionLoading ? (
-                    <div className="text-sm text-gray-500">Loading subscription...</div>
+                    <div className="text-sm text-muted-foreground">Loading subscription...</div>
                   ) : subscription ? (
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[var(--color-primary)]/5 to-[var(--color-primary)]/10 rounded-lg border border-[var(--color-primary)]/20">
@@ -322,8 +322,8 @@ export default function SettingsPage() {
                             </svg>
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900">{subscription.plan.charAt(0).toUpperCase() + subscription.plan.slice(1)}</p>
-                            <p className="text-sm text-gray-600">
+                            <p className="font-semibold text-foreground">{subscription.plan.charAt(0).toUpperCase() + subscription.plan.slice(1)}</p>
+                            <p className="text-sm text-muted-foreground">
                               {subscription.status === "active" ? "Active" : subscription.status}
                             </p>
                           </div>
@@ -338,7 +338,7 @@ export default function SettingsPage() {
                       </div>
 
                       {/* Interview Credits */}
-                      <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="p-4 bg-muted rounded-lg border border-border">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
@@ -347,28 +347,28 @@ export default function SettingsPage() {
                               </svg>
                             </div>
                             <div>
-                              <p className="font-semibold text-gray-900">Interview Credits</p>
-                              <p className="text-sm text-gray-600">Available credits for interviews</p>
+                              <p className="font-semibold text-foreground">Interview Credits</p>
+                              <p className="text-sm text-muted-foreground">Available credits for interviews</p>
                             </div>
                           </div>
                           <div className="text-right">
                             {creditBalanceLoading ? (
-                              <p className="text-2xl font-bold text-gray-400">...</p>
+                              <p className="text-2xl font-bold text-muted-foreground">...</p>
                             ) : (
                               <p className="text-2xl font-bold text-green-600">{creditBalance ?? 0}</p>
                             )}
-                            <p className="text-xs text-gray-500">credits remaining</p>
+                            <p className="text-xs text-muted-foreground">credits remaining</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="p-4 bg-muted rounded-lg border border-border">
                         <div className="flex items-center justify-between">
                           <div className="space-y-2">
-                            <p className="text-sm font-medium text-gray-900">Currently on: Free Plan</p>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm font-medium text-foreground">Currently on: Free Plan</p>
+                            <p className="text-sm text-muted-foreground">
                               Upgrade to Pro to unlock premium features
                             </p>
                           </div>
@@ -394,19 +394,19 @@ export default function SettingsPage() {
             <div className="space-y-6">
               {/* Organization Info */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-900">Information</h3>
+                <h3 className="text-sm font-semibold text-foreground">Information</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-foreground mb-1">
                       Organization Name
                     </label>
-                    <p className="text-gray-900">{activeOrganization.name}</p>
+                    <p className="text-foreground">{activeOrganization.name}</p>
                   </div>
                 </div>
               </div>
 
               {/* Divider */}
-              <div className="border-t border-gray-200" />
+              <div className="border-t border-border" />
 
               {/* Members Section */}
               <div className="space-y-4">
@@ -414,7 +414,7 @@ export default function SettingsPage() {
                 {isAdmin || isOwner && (
                   <>
                     <div className="space-y-4">
-                      <h3 className="text-sm font-semibold text-gray-900">Invite New Member</h3>
+                      <h3 className="text-sm font-semibold text-foreground">Invite New Member</h3>
                       <form onSubmit={handleInviteMember} className="space-y-4">
                         <div className="flex gap-3">
                           <div className="flex-1">
@@ -429,7 +429,7 @@ export default function SettingsPage() {
                           <select
                             value={inviteRole}
                             onChange={(e) => setInviteRole(e.target.value as "member")}
-                            className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                            className="px-4 py-2 border border-border rounded-lg text-sm text-foreground bg-card focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                             aria-label="Member role"
                           >
                             <option value="member">Member</option>
@@ -440,19 +440,19 @@ export default function SettingsPage() {
                         </div>
                       </form>
                     </div>
-                    <div className="border-t border-gray-200" />
+                    <div className="border-t border-border" />
                   </>
                 )}
 
                 {/* Members List */}
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-900">
+                  <h3 className="text-sm font-semibold text-foreground">
                     Team Members ({members.length})
                   </h3>
                   {membersLoading ? (
-                    <div className="text-center py-8 text-gray-500">Loading members...</div>
+                    <div className="text-center py-8 text-muted-foreground">Loading members...</div>
                   ) : members.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">No members yet</div>
+                    <div className="text-center py-8 text-muted-foreground">No members yet</div>
                   ) : (
                     <div className="space-y-2">
                       {members.map((member: any) => {
@@ -464,7 +464,7 @@ export default function SettingsPage() {
                         return (
                           <div
                             key={member.id}
-                            className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
+                            className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted transition"
                           >
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center overflow-hidden">
@@ -483,8 +483,8 @@ export default function SettingsPage() {
                                 )}
                               </div>
                               <div>
-                                <p className="font-medium text-gray-900">{memberName}</p>
-                                <p className="text-sm text-gray-500">{memberEmail}</p>
+                                <p className="font-medium text-foreground">{memberName}</p>
+                                <p className="text-sm text-muted-foreground">{memberEmail}</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
@@ -492,7 +492,7 @@ export default function SettingsPage() {
                                 className={`px-3 py-1 text-xs font-medium rounded-full ${
                                   member.role === "admin" || member.role === "owner"
                                     ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
-                                    : "bg-gray-100 text-gray-600"
+                                    : "bg-muted text-muted-foreground"
                                 }`}
                               >
                                 {member.role}
@@ -533,13 +533,13 @@ export default function SettingsPage() {
                 {/* Pending Invitations */}
                 {invitations.length > 0 && (
                   <>
-                    <div className="border-t border-gray-200" />
+                    <div className="border-t border-border" />
                     <div className="space-y-3">
-                      <h3 className="text-sm font-semibold text-gray-900">
+                      <h3 className="text-sm font-semibold text-foreground">
                         Pending Invitations ({invitations.length})
                       </h3>
                       {invitationsLoading ? (
-                        <div className="text-center py-8 text-gray-500">Loading invitations...</div>
+                        <div className="text-center py-8 text-muted-foreground">Loading invitations...</div>
                       ) : (
                         <div className="space-y-2">
                           {invitations.map((invitation: any) => {
@@ -549,17 +549,17 @@ export default function SettingsPage() {
                             return (
                               <div
                                 key={invitation.id}
-                                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
+                                className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted transition"
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                    <span className="text-gray-600 font-semibold">
+                                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                                    <span className="text-muted-foreground font-semibold">
                                       {avatar}
                                     </span>
                                   </div>
                                   <div>
-                                    <p className="font-medium text-gray-900">{inviteeEmail}</p>
-                                    <p className="text-sm text-gray-500">Invited • Pending acceptance</p>
+                                    <p className="font-medium text-foreground">{inviteeEmail}</p>
+                                    <p className="text-sm text-muted-foreground">Invited • Pending acceptance</p>
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -600,7 +600,7 @@ export default function SettingsPage() {
         subtitle="Are you sure you want to cancel this invitation?"
       >
         <div className="space-y-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             The invited user will no longer be able to accept this invitation.
           </p>
           <div className="flex justify-end gap-3">
@@ -634,7 +634,7 @@ export default function SettingsPage() {
         subtitle="Are you sure you want to remove this member?"
       >
         <div className="space-y-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             {memberToRemove && (
               <>
                 <strong>{memberToRemove.name}</strong>

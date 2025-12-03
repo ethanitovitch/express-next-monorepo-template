@@ -103,16 +103,16 @@ export default function SignupPage() {
           
           {/* Divider */}
           <div className="relative flex items-center py-4">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="flex-shrink mx-4 text-sm text-gray-500">OR</span>
-            <div className="flex-grow border-t border-gray-300"></div>
+            <div className="flex-grow border-t border-border"></div>
+            <span className="flex-shrink mx-4 text-sm text-muted-foreground">OR</span>
+            <div className="flex-grow border-t border-border"></div>
           </div>
 
           {/* Google Sign Up Button */}
           <button
             type="button"
             onClick={handleGoogleSignUp}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium text-gray-700"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-border rounded-lg hover:bg-muted transition-colors duration-200 font-medium text-foreground"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -123,10 +123,10 @@ export default function SignupPage() {
             Sign up with Google
           </button>
 
-          <p className="text-center text-sm text-gray-600">
+          <p className="text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <a 
-              className="text-(--color-primary) underline" 
+              className="text-primary underline" 
               href={inviteId ? `/login?inviteId=${inviteId}&redirect=${encodeURIComponent(`/accept-invitation/${inviteId}`)}` : "/login"}
             >
               Sign in

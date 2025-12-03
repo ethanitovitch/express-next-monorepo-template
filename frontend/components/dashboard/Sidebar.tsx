@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Settings, LogOut, ChevronDown, Plus, Shield } from "lucide-react";
+import { Home, Settings, LogOut, ChevronDown, Plus, Shield, Palette } from "lucide-react";
 import { useOrganizations, useSetActiveOrganizationMutation } from "@/hooks/api/useOrganization";
 import { toast } from "sonner";
 import { useActiveOrganization } from "@/lib/auth-client";
@@ -21,6 +21,7 @@ const bottom = [
 
 const adminNav = [
   { href: "/dashboard/admin", label: "Admin", icon: Shield },
+  { href: "/dashboard/theme-builder", label: "Theme Builder", icon: Palette },
 ];
 
 export default function Sidebar({
@@ -76,8 +77,8 @@ export default function Sidebar({
       className={[
         "group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition",
         active
-          ? "bg-[var(--color-primary)] text-white"
-          : "text-gray-800 hover:bg-gray-100",
+          ? "bg-primary text-primary-foreground"
+          : "text-foreground hover:bg-muted",
       ].join(" ")}
     >
       <Icon className="h-5 w-5 opacity-90" />
@@ -88,9 +89,9 @@ export default function Sidebar({
   return (
     <>
       {/* Mobile Top Nav */}
-      <div className="sm:hidden fixed top-0 left-0 right-0 z-30 bg-white/90 backdrop-blur border-b border-gray-200">
+      <div className="sm:hidden fixed top-0 left-0 right-0 z-30 bg-card/90 backdrop-blur border-b border-border">
         <div className="flex items-center justify-between px-4 py-3">
-          <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-gray-900 hover:opacity-80 transition">
+          <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-foreground hover:opacity-80 transition">
             Update Me
           </Link>
           
@@ -101,19 +102,19 @@ export default function Sidebar({
           >
             <span
               className={[
-                "block w-6 h-0.5 bg-gray-900 transition-all duration-300 ease-in-out",
+                "block w-6 h-0.5 bg-foreground transition-all duration-300 ease-in-out",
                 mobileMenuOpen ? "rotate-45 translate-y-2" : "",
               ].join(" ")}
             />
             <span
               className={[
-                "block w-6 h-0.5 bg-gray-900 transition-all duration-300 ease-in-out",
+                "block w-6 h-0.5 bg-foreground transition-all duration-300 ease-in-out",
                 mobileMenuOpen ? "opacity-0" : "",
               ].join(" ")}
             />
             <span
               className={[
-                "block w-6 h-0.5 bg-gray-900 transition-all duration-300 ease-in-out",
+                "block w-6 h-0.5 bg-foreground transition-all duration-300 ease-in-out",
                 mobileMenuOpen ? "-rotate-45 -translate-y-2" : "",
               ].join(" ")}
             />
@@ -127,7 +128,7 @@ export default function Sidebar({
             mobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0",
           ].join(" ")}
         >
-          <nav className="px-4 py-4 space-y-2 border-t border-gray-100">
+          <nav className="px-4 py-4 space-y-2 border-t border-border">
             {nav.map((n) => (
               <Item
                 key={n.href}
@@ -150,7 +151,7 @@ export default function Sidebar({
               />
             ))}
               
-            <div className="pt-2 mt-2 border-t border-gray-200 space-y-2">
+            <div className="pt-2 mt-2 border-t border-border space-y-2">
               {bottom.map((n) => (
                 <Item
                   key={n.href}
@@ -164,7 +165,7 @@ export default function Sidebar({
 
               {/* Mobile Organization Switcher */}
               <div className="space-y-2">
-                <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">
+                <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase">
                   Organizations
                 </div>
                 {organizations?.data?.map((org) => (
@@ -177,19 +178,19 @@ export default function Sidebar({
                     disabled={setActiveMutation.isPending}
                     className={`
                       w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition
-                      text-gray-800
-                      ${org.id === activeOrganization?.data?.id ? 'bg-gray-100' : 'hover:bg-gray-50'}
+                      text-foreground
+                      ${org.id === activeOrganization?.data?.id ? 'bg-muted' : 'hover:bg-muted/50'}
                       disabled:opacity-50 disabled:cursor-not-allowed
                     `}
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-semibold text-sm">
+                    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                      <span className="text-primary-foreground font-semibold text-sm">
                         {org.name.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <span className="flex-1 min-w-0 text-left text-gray-800">{org.name}</span>
+                    <span className="flex-1 min-w-0 text-left text-foreground">{org.name}</span>
                     {org.id === activeOrganization?.data?.id && (
-                      <span className="flex-shrink-0 text-[var(--color-primary)]">✓</span>
+                      <span className="flex-shrink-0 text-primary">✓</span>
                     )}
                   </button>
                 ))}
@@ -200,7 +201,7 @@ export default function Sidebar({
                   }}
                   className="
                     w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium
-                    text-[var(--color-primary)] hover:bg-gray-50 transition
+                    text-primary hover:bg-muted/50 transition
                   "
                 >
                   <Plus className="h-5 w-5" />
@@ -215,7 +216,7 @@ export default function Sidebar({
                 }}
                 className="
                   group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium
-                  text-red-600 hover:bg-red-50 transition
+                  text-destructive hover:bg-destructive/10 transition
                 "
               >
                 <LogOut className="h-5 w-5" />
@@ -231,7 +232,7 @@ export default function Sidebar({
         className="
           fixed inset-y-0 left-0 z-20
           w-60 md:w-64
-          border-r border-gray-200 bg-white/90 backdrop-blur
+          border-r border-border bg-card/90 backdrop-blur
           px-3 py-4 md:px-4 md:py-6
           hidden sm:flex
           flex-col
@@ -239,12 +240,12 @@ export default function Sidebar({
       >
         {/* Top: logo / app name */}
         <div className="mb-5 px-2">
-          <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-gray-900 hover:opacity-80 transition">
+          <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-foreground hover:opacity-80 transition">
             Update Me
           </Link>
         </div>
         
-        <div className="border-b border-gray-200 mb-6" />
+        <div className="border-b border-border mb-6" />
 
         {/* Primary nav */}
         <nav className="space-y-2">
@@ -271,16 +272,16 @@ export default function Sidebar({
         {/* Subscription Card - Only show if not subscribed */}
         {!subscription && (
           <div className="flex-1 flex items-center justify-center px-2">
-            <div className="rounded-xl bg-gradient-to-b from-gray-100 to-white p-6 py-8 flex flex-col items-center justify-center w-full">
-              <h3 className="text-base font-semibold text-gray-900 mb-1">
+            <div className="rounded-xl bg-gradient-to-b from-muted to-card p-6 py-8 flex flex-col items-center justify-center w-full border border-border">
+              <h3 className="text-base font-semibold text-foreground mb-1">
                 Make it happen
               </h3>
-              <p className="text-xs text-gray-600 mb-3 text-center">
+              <p className="text-xs text-muted-foreground mb-3 text-center">
                 Subscribe to get full access to Update Me
               </p>
               <Link 
                 href="/dashboard/settings"
-                className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white text-sm font-medium py-2 px-4 rounded-lg transition text-center"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium py-2 px-4 rounded-lg transition text-center"
               >
                 Subscribe
               </Link>
@@ -289,7 +290,7 @@ export default function Sidebar({
         )}
 
         {/* Bottom actions pinned */}
-        <div className="mt-auto space-y-2 pt-6 border-t border-gray-200">
+        <div className="mt-auto space-y-2 pt-6 border-t border-border">
           {bottom.map((n) => (
             <Item
               key={n.href}
@@ -306,23 +307,23 @@ export default function Sidebar({
               onClick={() => setOrgDropdownOpen(!orgDropdownOpen)}
               className="
                 group flex w-full items-center justify-between gap-3 rounded-xl pl-1 pr-3 py-2 text-sm font-medium
-                text-gray-800 hover:bg-gray-100 transition border border-gray-200
+                text-foreground hover:bg-muted transition border border-border
               "
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-semibold text-sm">
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary-foreground font-semibold text-sm">
                     {activeOrganization?.data?.name?.charAt(0).toUpperCase() || "O"}
                   </span>
                 </div>
-                <span className="truncate text-gray-800">{activeOrganization?.data?.name || "Organization"}</span>
+                <span className="truncate text-foreground">{activeOrganization?.data?.name || "Organization"}</span>
               </div>
               <ChevronDown className={`h-4 w-4 transition-transform flex-shrink-0 ${orgDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dropdown */}
             {orgDropdownOpen && (
-              <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+              <div className="absolute bottom-full left-0 right-0 mb-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden">
                 <div className="max-h-64 overflow-y-auto">
                   {organizations?.data?.map((org) => (
                     <button 
@@ -331,25 +332,25 @@ export default function Sidebar({
                       disabled={setActiveMutation.isPending}
                       className={`
                         w-full flex items-center gap-3 px-3 py-2 text-sm
-                        hover:bg-gray-50 transition text-left
-                        ${org.id === activeOrganization?.data?.id ? 'bg-gray-50' : ''}
+                        hover:bg-muted/50 transition text-left
+                        ${org.id === activeOrganization?.data?.id ? 'bg-muted' : ''}
                         disabled:opacity-50 disabled:cursor-not-allowed
                       `}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
-                        <span className="text-white font-semibold text-sm">
+                      <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                        <span className="text-primary-foreground font-semibold text-sm">
                           {org.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                      <span className="truncate text-gray-800">{org.name}</span>
+                      <span className="truncate text-foreground">{org.name}</span>
                       {org.id === activeOrganization?.data?.id && (
-                        <span className="ml-auto text-xs text-[var(--color-primary)]">✓</span>
+                        <span className="ml-auto text-xs text-primary">✓</span>
                       )}
                     </button>
                   ))}
                 </div>
                 
-                <div className="border-t border-gray-200">
+                <div className="border-t border-border">
                   <button
                     onClick={() => {
                       setOrgDropdownOpen(false);
@@ -357,7 +358,7 @@ export default function Sidebar({
                     }}
                     className="
                       w-full flex items-center gap-3 px-3 py-2 text-sm font-medium
-                      text-[var(--color-primary)] hover:bg-gray-50 transition
+                      text-primary hover:bg-muted/50 transition
                     "
                   >
                     <Plus className="h-5 w-5" />
@@ -372,7 +373,7 @@ export default function Sidebar({
             onClick={onLogout}
             className="
               group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium
-              text-red-600 hover:bg-red-50 transition
+              text-destructive hover:bg-destructive/10 transition
             "
           >
             <LogOut className="h-5 w-5" />

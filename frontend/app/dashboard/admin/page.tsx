@@ -37,29 +37,29 @@ function Pagination({
   const end = Math.min(page * limit, total);
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-      <p className="text-sm text-gray-500">
+    <div className="flex items-center justify-between px-4 py-3 border-t border-border">
+      <p className="text-sm text-muted-foreground">
         Showing {start} to {end} of {total}
       </p>
       <div className="flex items-center gap-2">
         <button
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
-          className="p-1.5 rounded border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 rounded border border-border bg-card hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Previous page"
         >
-          <ChevronLeft className="h-4 w-4 text-gray-700" />
+          <ChevronLeft className="h-4 w-4 text-foreground" />
         </button>
-        <span className="text-sm text-gray-700 px-2">
+        <span className="text-sm text-foreground px-2">
           Page {page} of {totalPages}
         </span>
         <button
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
-          className="p-1.5 rounded border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 rounded border border-border bg-card hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Next page"
         >
-          <ChevronRight className="h-4 w-4 text-gray-700" />
+          <ChevronRight className="h-4 w-4 text-foreground" />
         </button>
       </div>
     </div>
@@ -77,13 +77,13 @@ function SearchBar({
 }) {
   return (
     <div className="relative mb-4">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-10 pr-4 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+        className="w-full pl-10 pr-4 py-2 text-sm text-foreground placeholder-muted-foreground bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
       />
     </div>
   );
@@ -190,28 +190,28 @@ export default function AdminPage() {
     <Page title="Admin" subtitle="Manage users, organizations, and interviews">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <Users className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Total Users</p>
-              <p className="text-2xl font-semibold text-gray-900">
+              <p className="text-sm text-muted-foreground">Total Users</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {statsLoading ? "..." : stats?.users ?? 0}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
               <Building2 className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Organizations</p>
-              <p className="text-2xl font-semibold text-gray-900">
+              <p className="text-sm text-muted-foreground">Organizations</p>
+              <p className="text-2xl font-semibold text-foreground">
                 {statsLoading ? "..." : stats?.organizations ?? 0}
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function AdminPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 mb-6">
+      <div className="border-b border-border mb-6">
         <div className="flex gap-6">
           {tabs.map((tab) => (
             <button
@@ -230,7 +230,7 @@ export default function AdminPage() {
                 flex items-center gap-2 pb-3 text-sm font-medium border-b-2 transition
                 ${activeTab === tab.id
                   ? "border-[var(--color-primary)] text-[var(--color-primary)]"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
                 }
               `}
             >
@@ -250,28 +250,28 @@ export default function AdminPage() {
             placeholder="Search by email, name, or organization..."
           />
           {usersLoading ? (
-            <div className="text-center py-8 text-gray-500">Loading users...</div>
+            <div className="text-center py-8 text-muted-foreground">Loading users...</div>
           ) : (
             <>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Email</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Name</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Organizations</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Verified</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Role</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Created</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Actions</th>
+                    <tr className="border-b border-border">
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Email</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Name</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Organizations</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Verified</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Role</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Created</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {usersData?.data?.map((user: AdminUser) => (
-                      <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-900">{user.email}</td>
-                        <td className="py-3 px-4 text-gray-600">{user.name || "-"}</td>
-                        <td className="py-3 px-4 text-gray-600">
+                      <tr key={user.id} className="border-b border-border/50 hover:bg-muted">
+                        <td className="py-3 px-4 text-foreground">{user.email}</td>
+                        <td className="py-3 px-4 text-muted-foreground">{user.name || "-"}</td>
+                        <td className="py-3 px-4 text-muted-foreground">
                           {user.organizations.length > 0 
                             ? user.organizations.join(", ") 
                             : "-"}
@@ -289,12 +289,12 @@ export default function AdminPage() {
                           <span className={`inline-flex px-2 py-0.5 text-xs rounded-full ${
                             user.role === "admin"
                               ? "bg-purple-100 text-purple-700" 
-                              : "bg-gray-100 text-gray-600"
+                              : "bg-muted text-muted-foreground"
                           }`}>
                             {user.role === "admin" ? "Admin" : "User"}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-gray-500">
+                        <td className="py-3 px-4 text-muted-foreground">
                           {new Date(user.createdAt).toLocaleDateString()}
                         </td>
                         <td className="py-3 px-4">
@@ -335,37 +335,37 @@ export default function AdminPage() {
             placeholder="Search by name or slug..."
           />
           {orgsLoading ? (
-            <div className="text-center py-8 text-gray-500">Loading organizations...</div>
+            <div className="text-center py-8 text-muted-foreground">Loading organizations...</div>
           ) : (
             <>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Name</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Slug</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Members</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Credits</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Created</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-700">Actions</th>
+                    <tr className="border-b border-border">
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Name</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Slug</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Members</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Credits</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Created</th>
+                      <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {orgsData?.data?.map((org: AdminOrganization) => (
-                      <tr key={org.id} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-3 px-4 text-gray-900 font-medium">{org.name}</td>
-                        <td className="py-3 px-4 text-gray-600">{org.slug}</td>
-                        <td className="py-3 px-4 text-gray-600">{org.memberCount}</td>
+                      <tr key={org.id} className="border-b border-border/50 hover:bg-muted">
+                        <td className="py-3 px-4 text-foreground font-medium">{org.name}</td>
+                        <td className="py-3 px-4 text-muted-foreground">{org.slug}</td>
+                        <td className="py-3 px-4 text-muted-foreground">{org.memberCount}</td>
                         <td className="py-3 px-4">
                           <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${
                             org.creditBalance > 0 
                               ? "bg-green-100 text-green-700" 
-                              : "bg-gray-100 text-gray-600"
+                              : "bg-muted text-muted-foreground"
                           }`}>
                             {org.creditBalance}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-gray-500">
+                        <td className="py-3 px-4 text-muted-foreground">
                           {new Date(org.createdAt).toLocaleDateString()}
                         </td>
                         <td className="py-3 px-4">
@@ -417,14 +417,14 @@ export default function AdminPage() {
             required
           />
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-foreground">
               Reason (optional)
             </label>
             <textarea
               value={creditsReason}
               onChange={(e) => setCreditsReason(e.target.value)}
               placeholder="e.g., Promotional credits, Customer support adjustment..."
-              className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none transition focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] resize-none placeholder:text-gray-400"
+              className="w-full rounded-xl border border-border px-3 py-2 text-sm text-foreground outline-none transition focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] resize-none placeholder:text-muted-foreground"
               rows={2}
             />
           </div>

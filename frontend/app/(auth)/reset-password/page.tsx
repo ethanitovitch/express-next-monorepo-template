@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
       <div className="min-h-screen grid place-items-center p-6">
         <AuthCard title="Check your email">
           <div className="space-y-4 py-4">
-            <div className="text-center text-gray-600 space-y-3">
+            <div className="text-center text-muted-foreground space-y-3">
               <svg
                 className="mx-auto h-16 w-16 text-[var(--color-primary)]"
                 fill="none"
@@ -170,7 +170,7 @@ export default function ResetPasswordPage() {
               Reset Password
             </Button>
             
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-muted-foreground">
               Remember your password?{" "}
               <a 
                 className="text-[var(--color-primary)] underline" 
@@ -191,7 +191,7 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen grid place-items-center p-6">
       <AuthCard title="Forgot password?">
         <form onSubmit={handleRequestReset} className="space-y-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             Enter your email address and we&apos;ll send you a link to reset your password.
           </p>
           
@@ -207,7 +207,7 @@ export default function ResetPasswordPage() {
             Send Reset Link
           </Button>
           
-          <p className="text-center text-sm text-gray-600">
+          <p className="text-center text-sm text-muted-foreground">
             Remember your password?{" "}
             <a 
               className="text-[var(--color-primary)] underline" 

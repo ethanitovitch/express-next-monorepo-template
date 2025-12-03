@@ -76,7 +76,7 @@ export default function AcceptInvitationPage() {
   if (isPending) {
     return (
       <div className="min-h-screen grid place-items-center p-6">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -85,7 +85,7 @@ export default function AcceptInvitationPage() {
   if (!session || redirecting) {
     return (
       <div className="min-h-screen grid place-items-center p-6">
-        <div className="text-gray-500">Redirecting to login...</div>
+        <div className="text-muted-foreground">Redirecting to login...</div>
       </div>
     );
   }
@@ -97,10 +97,10 @@ export default function AcceptInvitationPage() {
         <AuthCard title="Success!">
           <div className="text-center space-y-4">
             <div className="text-5xl">🎉</div>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               You&apos;ve successfully joined the organization!
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               Redirecting to dashboard...
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function AcceptInvitationPage() {
     <div className="min-h-screen grid place-items-center p-6">
       <AuthCard title="Accept Invitation">
         <div className="space-y-6">
-          <p className="text-center text-gray-600">
+          <p className="text-center text-muted-foreground">
             You&apos;ve been invited to join an organization on Update Me.
           </p>
           

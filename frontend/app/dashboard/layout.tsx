@@ -31,8 +31,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (isPending) {
     return (
-      <div className="min-h-screen grid place-items-center">
-        <div className="text-gray-500">Loading...</div>
+      <div className="min-h-screen grid place-items-center bg-background">
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -58,7 +58,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <Sidebar onLogout={handleLogout} onOpenCreateOrg={handleOpenCreateOrg} />
         <main className="pt-16 sm:pt-0 sm:pl-60 md:pl-64 px-4 md:px-6 py-6 md:py-8">
           <div className="mx-auto max-w-[96rem]">

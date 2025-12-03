@@ -1,12 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AuthCard from "@/components/AuthCard";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSignInEmail, useSignInSocial } from "@/hooks/api/useAuth";
-import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -90,16 +89,16 @@ export default function LoginPage() {
           
           {/* Divider */}
           <div className="relative flex items-center py-4">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="flex-shrink mx-4 text-sm text-gray-500">OR</span>
-            <div className="flex-grow border-t border-gray-300"></div>
+            <div className="flex-grow border-t border-border"></div>
+            <span className="flex-shrink mx-4 text-sm text-muted-foreground">OR</span>
+            <div className="flex-grow border-t border-border"></div>
           </div>
 
           {/* Google Sign In Button */}
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium text-gray-700"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-border rounded-lg hover:bg-muted transition-colors duration-200 font-medium text-foreground"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -110,10 +109,10 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-          <p className="text-center text-sm text-gray-600">
+          <p className="text-center text-sm text-muted-foreground">
             New here?{" "}
             <a 
-              className="text-(--color-primary) underline" 
+              className="text-primary underline" 
               href={inviteId ? `/signup?inviteId=${inviteId}&redirect=${encodeURIComponent(redirectUrl || "")}` : "/signup"}
             >
               Create an account

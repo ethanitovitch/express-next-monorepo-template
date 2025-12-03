@@ -107,7 +107,7 @@ export default function VerifyEmailPage() {
         <AuthCard title="Redirecting...">
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)] mx-auto"></div>
-            <p className="text-sm text-gray-600 mt-4">Redirecting to accept invitation...</p>
+            <p className="text-sm text-muted-foreground mt-4">Redirecting to accept invitation...</p>
           </div>
         </AuthCard>
       </div>
@@ -120,7 +120,7 @@ export default function VerifyEmailPage() {
         <AuthCard title="Verifying...">
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)] mx-auto"></div>
-            <p className="text-sm text-gray-600 mt-4">Verifying your email...</p>
+            <p className="text-sm text-muted-foreground mt-4">Verifying your email...</p>
           </div>
         </AuthCard>
       </div>
@@ -135,7 +135,7 @@ export default function VerifyEmailPage() {
         <AuthCard title="Email Verified!">
           <div className="text-center py-8">
             <div className="text-green-500 text-5xl mb-4">✓</div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               {hasInvitation 
                 ? "Your email has been verified. Redirecting to accept invitation..." 
                 : "Your email has been verified. Redirecting to dashboard..."}
@@ -150,7 +150,7 @@ export default function VerifyEmailPage() {
     <div className="min-h-screen grid place-items-center p-6">
       <AuthCard title="Check your email">
         <div className="space-y-4 py-4">
-          <div className="text-center text-gray-600 space-y-3">
+          <div className="text-center text-muted-foreground space-y-3">
             <svg
               className="mx-auto h-16 w-16 text-[var(--color-primary)]"
               fill="none"
@@ -172,8 +172,8 @@ export default function VerifyEmailPage() {
             </p>
           </div>
 
-          <div className="pt-4 border-t border-gray-200">
-            <p className="text-center text-sm text-gray-600">
+          <div className="pt-4 border-t border-border">
+            <p className="text-center text-sm text-muted-foreground">
               Didn&apos;t receive the email?{" "}
               <button
                 onClick={handleResend}
