@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "notification" ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP;

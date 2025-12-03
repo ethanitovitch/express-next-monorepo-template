@@ -26,6 +26,8 @@ const envSchema = z.object({
   REDIS_URL: z.string().url().default('redis://localhost:6379'),
   BETTERSTACK_TOKEN: z.string(),
   BETTERSTACK_HOST: z.string(),
+  AXIOM_DATASET: z.string(),
+  AXIOM_TOKEN: z.string(),
   SENTRY_DSN: z.string(),
   JWT_SECRET: z.string(),
   WEBHOOK_API_KEY: z.string(),
@@ -35,6 +37,14 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   RESEND_API_KEY: z.string(),
+  MCP_API_KEY: z.string(),
+  // Pusher/Soketi
+  PUSHER_APP_ID: z.string().default('app-id'),
+  PUSHER_KEY: z.string().default('app-key'),
+  PUSHER_SECRET: z.string().default('app-secret'),
+  PUSHER_HOST: z.string().default('localhost'),
+  PUSHER_PORT: z.coerce.number().default(6001),
+  PUSHER_USE_TLS: z.string().default('false').transform((val) => val === 'true'),
 })
 
 const env = envSchema.parse(process.env)
@@ -71,6 +81,8 @@ export const config = {
   logger: {
     betterstackToken: env.BETTERSTACK_TOKEN,
     betterstackHost: env.BETTERSTACK_HOST,
+    axiomDataset: env.AXIOM_DATASET,
+    axiomToken: env.AXIOM_TOKEN,
   },
   sentry: {
     dsn: env.SENTRY_DSN,
@@ -88,6 +100,17 @@ export const config = {
   },
   resend: {
     apiKey: env.RESEND_API_KEY,
+  },
+  mcp: {
+    apiKey: env.MCP_API_KEY,
+  },
+  pusher: {
+    appId: env.PUSHER_APP_ID,
+    key: env.PUSHER_KEY,
+    secret: env.PUSHER_SECRET,
+    host: env.PUSHER_HOST,
+    port: env.PUSHER_PORT,
+    useTLS: env.PUSHER_USE_TLS,
   },
 } as const
 

@@ -4,7 +4,6 @@ import { config } from '@/config'
 import { setRequestContext } from '@/lib/context'
 import logger from '@/lib/logger'
 import Sentry from '@/lib/sentry'
-import { getExample } from '@/api/controllers/example.controller'
 
 export class EventProcessor {
   private worker: Worker<ExampleEvent>
@@ -28,7 +27,7 @@ export class EventProcessor {
 
             switch (job.data.type) {
               case ExampleEventType.GET_EXAMPLE:
-                console.log('getExample', job.data.id)
+                logger.info('Processing example event', job.data.id)
                 break
               default:
                 throw new Error(`Unknown event type: ${job.data.type}`)

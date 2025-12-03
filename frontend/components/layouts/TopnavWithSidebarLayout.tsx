@@ -4,7 +4,8 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { useActiveOrganization } from "@/lib/auth-client";
-import { Bell, Search } from "lucide-react";
+import { Search } from "lucide-react";
+import { NotificationsDropdown } from "@/components/notifications/NotificationsDropdown";
 
 interface TopnavWithSidebarLayoutProps {
   children: React.ReactNode;
@@ -32,9 +33,7 @@ export function TopnavWithSidebarLayout({ children, onLogout, onOpenCreateOrg }:
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="p-2.5 hover:bg-muted rounded-xl transition" aria-label="Notifications">
-            <Bell className="w-5 h-5 text-muted-foreground" />
-          </button>
+          <NotificationsDropdown />
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
               <span className="text-primary-foreground font-semibold text-sm">

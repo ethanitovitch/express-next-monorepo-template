@@ -53,6 +53,16 @@ export type Member = {
   role: string
   createdAt: Timestamp
 }
+export type Notification = {
+  id: string
+  userId: string
+  title: string
+  message: string
+  link: string | null
+  readAt: Timestamp | null
+  createdAt: Generated<Timestamp>
+  updatedAt: Generated<Timestamp>
+}
 export type Organization = {
   id: string
   name: string
@@ -116,6 +126,7 @@ export type DB = {
   example: Example
   invitation: Invitation
   member: Member
+  notification: Notification
   organization: Organization
   session: Session
   subscription: Subscription

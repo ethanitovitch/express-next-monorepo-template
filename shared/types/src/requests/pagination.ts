@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+// ============================================
+// Offset-based Pagination (traditional)
+// ============================================
+
 export const PaginationRequestSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(100).default(20),
@@ -31,4 +35,24 @@ export type PaginatedResponse<T = any> = {
     hasPrevPage: boolean;
   };
 };
+
+// ============================================
+// Cursor-based Pagination (infinite scroll)
+// ============================================
+
+export const CursorPaginationRequestSchema = z.object({
+  cursor: z.string().optional(),
+  limit: z.coerce.number().int().positive().max(50).default(20),
+});
+
+export type CursorPaginationRequest = z.infer<typeof CursorPaginationRequestSchema>;
+
+export type CursorPaginatedResponse<T> = {
+  data: T[];
+  nextCursor: string | null;
+  hasMore: boolean;
+};
+
+// With additional metadata (e.g., unread count for notifications)
+export type CursorPaginatedResponseWithMeta<T, M = Record<string, unknown>> = CursorPaginatedResponse<T> & M;
 
