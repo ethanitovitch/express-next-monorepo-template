@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 
 interface SidebarLayoutProps {
@@ -9,14 +10,18 @@ interface SidebarLayoutProps {
 }
 
 export function SidebarLayout({ children, onLogout, onOpenCreateOrg }: SidebarLayoutProps) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   return (
     <div className="h-screen bg-muted/40 p-2 sm:p-3 md:p-4 flex gap-2 sm:gap-3 md:gap-4 overflow-hidden">
       {/* Sidebar */}
-      <aside className="hidden sm:flex w-56 md:w-60 bg-card rounded-2xl border shadow-sm flex-col flex-shrink-0">
+      <aside className={`hidden sm:flex bg-card rounded-2xl border shadow-sm flex-col flex-shrink-0 transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-56 md:w-60'}`}>
         <Sidebar 
           onLogout={onLogout} 
           onOpenCreateOrg={onOpenCreateOrg} 
           variant="embedded"
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
       </aside>
 
@@ -27,8 +32,8 @@ export function SidebarLayout({ children, onLogout, onOpenCreateOrg }: SidebarLa
         </div>
       </main>
 
-      {/* Mobile Sidebar (uses built-in mobile nav) */}
-      <div className="sm:hidden">
+      {/* Mobile Sidebar (uses built-in mobile nav) - absolute to not affect flex layout */}
+      <div className="sm:hidden absolute">
         <Sidebar onLogout={onLogout} onOpenCreateOrg={onOpenCreateOrg} />
       </div>
     </div>

@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Settings, LogOut, ChevronDown, Plus, Shield, Palette } from "lucide-react";
+import { Home, Settings, LogOut, ChevronDown, Plus, Shield, Palette, PanelLeftClose, PanelLeft } from "lucide-react";
 import { useOrganizations, useSetActiveOrganizationMutation } from "@/hooks/api/useOrganization";
 import { toast } from "sonner";
 import { useActiveOrganization } from "@/lib/auth-client";
@@ -28,10 +28,14 @@ export default function Sidebar({
   onLogout,
   onOpenCreateOrg,
   variant = "fixed",
+  collapsed = false,
+  onToggleCollapse,
 }: { 
   onLogout?: () => void;
   onOpenCreateOrg?: () => void;
   variant?: "fixed" | "embedded";
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
 }) {
   const isEmbedded = variant === "embedded";
   const pathname = usePathname();
@@ -72,20 +76,22 @@ export default function Sidebar({
   };
 
   const Item = ({
-    href, label, icon: Icon, active, onClick,
-  }: { href: string; label: string; icon: any; active?: boolean; onClick?: () => void }) => (
+    href, label, icon: Icon, active, onClick, isCollapsed,
+  }: { href: string; label: string; icon: any; active?: boolean; onClick?: () => void; isCollapsed?: boolean }) => (
     <Link
       href={href}
       onClick={onClick}
+      title={isCollapsed ? label : undefined}
       className={[
         "group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition",
         active
           ? "bg-primary text-primary-foreground"
           : "text-foreground hover:bg-muted",
+        isCollapsed ? "justify-center" : "",
       ].join(" ")}
     >
-      <Icon className="h-5 w-5 opacity-90" />
-      <span className="truncate">{label}</span>
+      <Icon className="h-5 w-5 opacity-90 flex-shrink-0" />
+      {!isCollapsed && <span className="truncate">{label}</span>}
     </Link>
   );
 
@@ -93,13 +99,24 @@ export default function Sidebar({
   if (isEmbedded) {
     return (
       <aside
-        className="w-full h-full px-3 py-4 md:px-4 md:py-6 flex flex-col"
+        className="w-full h-full px-2 py-4 md:px-3 md:py-6 flex flex-col"
       >
-        {/* Top: logo / app name */}
-        <div className="mt-2 mb-8 px-2">
-          <Link href="/dashboard" className="text-xl font-semibold tracking-tight text-foreground hover:opacity-80 transition">
-            Update Me
-          </Link>
+        {/* Top: logo / app name + collapse toggle */}
+        <div className={`mt-2 mb-8 flex items-center ${collapsed ? 'justify-center' : 'justify-between px-2'}`}>
+          {!collapsed && (
+            <Link href="/dashboard" className="text-xl font-semibold tracking-tight text-foreground hover:opacity-80 transition">
+              Update Me
+            </Link>
+          )}
+          {onToggleCollapse && (
+            <button
+              onClick={onToggleCollapse}
+              className="p-2 hover:bg-muted rounded-lg transition text-muted-foreground hover:text-foreground"
+              title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              {collapsed ? <PanelLeft className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
+            </button>
+          )}
         </div>
         
         <div className="border-b border-border mb-6" />
@@ -113,6 +130,7 @@ export default function Sidebar({
               label={n.label}
               icon={n.icon}
               active={n.href === "/dashboard" ? pathname === n.href : pathname?.startsWith(n.href)}
+              isCollapsed={collapsed}
             />
           ))}
           {isAdmin && adminNav.map((n) => (
@@ -122,12 +140,13 @@ export default function Sidebar({
               label={n.label}
               icon={n.icon}
               active={pathname?.startsWith(n.href)}
+              isCollapsed={collapsed}
             />
           ))}
         </nav>
 
-        {/* Subscription Card - Only show if not subscribed */}
-        {!subscription && (
+        {/* Subscription Card - Only show if not subscribed and not collapsed */}
+        {!subscription && !collapsed && (
           <div className="flex-1 flex items-center justify-center px-2">
             <div className="rounded-xl bg-gradient-to-b from-muted to-card p-6 py-8 flex flex-col items-center justify-center w-full border border-border">
               <h3 className="text-base font-semibold text-foreground mb-1">
@@ -155,32 +174,45 @@ export default function Sidebar({
               label={n.label}
               icon={n.icon}
               active={pathname?.startsWith(n.href)}
+              isCollapsed={collapsed}
             />
           ))}
 
           {/* Organization Switcher */}
-          <div className="relative" ref={dropdownRef}>
+          <div className={`relative ${collapsed ? 'flex justify-center' : ''}`} ref={dropdownRef}>
             <button
               onClick={() => setOrgDropdownOpen(!orgDropdownOpen)}
-              className="
-                group flex w-full items-center justify-between gap-3 rounded-xl pl-1 pr-3 py-2 text-sm font-medium
-                text-foreground hover:bg-muted transition border border-border
-              "
+              title={collapsed ? (activeOrganization?.data?.name || "Organization") : undefined}
+              className={`
+                group flex items-center rounded-xl text-sm font-medium
+                text-foreground hover:bg-muted transition
+                ${collapsed ? 'p-1.5' : 'w-full justify-between pl-1 pr-3 py-2 gap-3 border border-border'}
+              `}
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+              {collapsed ? (
+                <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
                   <span className="text-primary-foreground font-semibold text-sm">
                     {activeOrganization?.data?.name?.charAt(0).toUpperCase() || "O"}
                   </span>
                 </div>
-                <span className="truncate text-foreground">{activeOrganization?.data?.name || "Organization"}</span>
-              </div>
-              <ChevronDown className={`h-4 w-4 transition-transform flex-shrink-0 ${orgDropdownOpen ? 'rotate-180' : ''}`} />
+              ) : (
+                <>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                      <span className="text-primary-foreground font-semibold text-sm">
+                        {activeOrganization?.data?.name?.charAt(0).toUpperCase() || "O"}
+                      </span>
+                    </div>
+                    <span className="truncate text-foreground">{activeOrganization?.data?.name || "Organization"}</span>
+                  </div>
+                  <ChevronDown className={`h-4 w-4 transition-transform flex-shrink-0 ${orgDropdownOpen ? 'rotate-180' : ''}`} />
+                </>
+              )}
             </button>
 
             {/* Dropdown */}
             {orgDropdownOpen && (
-              <div className="absolute bottom-full left-0 right-0 mb-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50">
+              <div className={`absolute bottom-full mb-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50 ${collapsed ? 'left-full ml-2 w-48' : 'left-0 right-0'}`}>
                 <div className="max-h-64 overflow-y-auto">
                   {organizations?.data?.map((org) => (
                     <button 
@@ -228,13 +260,15 @@ export default function Sidebar({
 
           <button
             onClick={onLogout}
-            className="
-              group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium
+            title={collapsed ? "Logout" : undefined}
+            className={`
+              group flex w-full items-center rounded-xl px-3 py-2 text-sm font-medium
               text-destructive hover:bg-destructive/10 transition
-            "
+              ${collapsed ? 'justify-center' : 'gap-3'}
+            `}
           >
             <LogOut className="h-5 w-5" />
-            <span>Logout</span>
+            {!collapsed && <span>Logout</span>}
           </button>
         </div>
       </aside>

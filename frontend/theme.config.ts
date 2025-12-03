@@ -12,7 +12,7 @@ export const themeConfig = {
   // Theme colors (hex values)
   colors: {
     // Core
-    primary: "#ff881a",
+    primary: "#ff991c",
     primaryForeground: "#ffffff",
     secondary: "#f5f0eb",
     secondaryForeground: "#3d2a14",
@@ -28,7 +28,7 @@ export const themeConfig = {
     destructiveForeground: "#ffffff",
     border: "#e5e5e5",
     input: "#e5e5e5",
-    ring: "#1a47ff",
+    ring: "#ff991c",
     // Charts
     chart1: "#ff991c",
     chart2: "#3b82f6",
