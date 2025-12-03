@@ -104,9 +104,9 @@ export default function Sidebar({
         {/* Top: logo / app name + collapse toggle */}
         <div className={`mt-2 mb-8 flex items-center ${collapsed ? 'justify-center' : 'justify-between px-2'}`}>
           {!collapsed && (
-            <Link href="/dashboard" className="text-xl font-semibold tracking-tight text-foreground hover:opacity-80 transition">
-              Update Me
-            </Link>
+          <Link href="/dashboard" className="text-xl font-semibold tracking-tight text-foreground hover:opacity-80 transition">
+            Update Me
+          </Link>
           )}
           {onToggleCollapse && (
             <button
@@ -198,14 +198,14 @@ export default function Sidebar({
               ) : (
                 <>
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-                      <span className="text-primary-foreground font-semibold text-sm">
-                        {activeOrganization?.data?.name?.charAt(0).toUpperCase() || "O"}
-                      </span>
-                    </div>
-                    <span className="truncate text-foreground">{activeOrganization?.data?.name || "Organization"}</span>
-                  </div>
-                  <ChevronDown className={`h-4 w-4 transition-transform flex-shrink-0 ${orgDropdownOpen ? 'rotate-180' : ''}`} />
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary-foreground font-semibold text-sm">
+                    {activeOrganization?.data?.name?.charAt(0).toUpperCase() || "O"}
+                  </span>
+                </div>
+                <span className="truncate text-foreground">{activeOrganization?.data?.name || "Organization"}</span>
+              </div>
+              <ChevronDown className={`h-4 w-4 transition-transform flex-shrink-0 ${orgDropdownOpen ? 'rotate-180' : ''}`} />
                 </>
               )}
             </button>

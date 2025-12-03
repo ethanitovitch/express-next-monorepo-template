@@ -3,7 +3,12 @@ import { env } from "./config";
 
 let pusherInstance: PusherClient | null = null;
 
-export const getPusherClient = () => {
+export const isPusherEnabled = () => env.PUSHER_ENABLED;
+
+export const getPusherClient = (): PusherClient | null => {
+  if (!env.PUSHER_ENABLED) {
+    return null;
+  }
   if (pusherInstance) return pusherInstance;
 
   pusherInstance = new PusherClient(env.PUSHER_KEY, {
@@ -52,4 +57,3 @@ export const disconnectPusher = () => {
     pusherInstance = null;
   }
 };
-

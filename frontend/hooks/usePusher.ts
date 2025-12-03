@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Channel } from "pusher-js";
 import { useSession } from "@/lib/auth-client";
-import { getPusherClient, disconnectPusher } from "@/lib/pusher-client";
+import { getPusherClient, disconnectPusher, isPusherEnabled } from "@/lib/pusher-client";
 import { channels, PUSHER_EVENTS, Notification } from "@shared/types/src";
 import { QUERY_KEYS, ENDPOINTS } from "@/lib/config";
 import { post } from "@/lib/api";
@@ -48,13 +48,19 @@ export function usePusher() {
   );
 
   useEffect(() => {
+    // Skip if Pusher is disabled
+    if (!isPusherEnabled()) return;
+
     const userId = session?.user?.id;
 
     if (!userId) {
       // Not authenticated - disconnect if connected
       if (channelRef.current) {
         channelRef.current.unbind_all();
-        getPusherClient().unsubscribe(channelRef.current.name);
+        const pusher = getPusherClient();
+        if (pusher) {
+          pusher.unsubscribe(channelRef.current.name);
+        }
         channelRef.current = null;
       }
       disconnectPusher();
@@ -63,6 +69,8 @@ export function usePusher() {
 
     // Connect and subscribe to user's private channel
     const pusher = getPusherClient();
+    if (!pusher) return;
+
     const channelName = channels.privateUser(userId);
 
     // Subscribe to private channel
@@ -80,7 +88,6 @@ export function usePusher() {
     };
   }, [session?.user?.id, handleNotification]);
 
-  // Derive connection state from session - no need for separate state
-  return { isConnected: !!session?.user?.id };
+  // Derive connection state from session and pusher enabled
+  return { isConnected: isPusherEnabled() && !!session?.user?.id };
 }
-

@@ -3,7 +3,7 @@ import { createNotificationWithPush } from '@/services/notification.service'
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const testNotifications = async () => {
-  await delay(3000)
+  await delay(1000)
   const notification = await createNotificationWithPush({
     userId: 'vX7ZkVMdHv8HEHZaqiwUGDIC1knWZS1B',
     title: 'Test Notification',

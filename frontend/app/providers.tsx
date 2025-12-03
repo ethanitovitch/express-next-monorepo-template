@@ -10,7 +10,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <PusherProvider>
-        {children}
+      {children}
       </PusherProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
