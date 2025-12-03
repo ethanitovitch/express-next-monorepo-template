@@ -44,7 +44,10 @@ const envSchema = z.object({
   PUSHER_SECRET: z.string().default('app-secret'),
   PUSHER_HOST: z.string().default('localhost'),
   PUSHER_PORT: z.coerce.number().default(6001),
-  PUSHER_USE_TLS: z.string().default('false').transform((val) => val === 'true'),
+  PUSHER_USE_TLS: z
+    .string()
+    .default('false')
+    .transform((val) => val === 'true'),
 })
 
 const env = envSchema.parse(process.env)

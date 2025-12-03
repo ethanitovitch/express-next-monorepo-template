@@ -1,7 +1,7 @@
 import { pushNotification } from '@/clients/pusher.client'
 import * as notificationRepository from '@/repositories/notification.repository'
-import { 
-  GetNotificationsRequest, 
+import {
+  GetNotificationsRequest,
   CreateNotificationInput,
   NotificationsResponse,
 } from '@shared/types/src'
@@ -10,16 +10,14 @@ import logger from '@/lib/logger'
 
 export const getNotifications = async (
   userId: string,
-  params: GetNotificationsRequest
+  params: GetNotificationsRequest,
 ): Promise<NotificationsResponse> => {
-  const { data, nextCursor, hasMore } = await notificationRepository.findByUserId(
-    userId,
-    {
+  const { data, nextCursor, hasMore } =
+    await notificationRepository.findByUserId(userId, {
       cursor: params.cursor,
       limit: params.limit,
       unreadOnly: params.unreadOnly,
-    }
-  )
+    })
 
   const unreadCount = await notificationRepository.getUnreadCount(userId)
 
@@ -58,7 +56,9 @@ export const createNotification = async (data: CreateNotificationInput) => {
   return notificationRepository.create(data)
 }
 
-export const createNotificationWithPush = async (data: CreateNotificationInput) => {
+export const createNotificationWithPush = async (
+  data: CreateNotificationInput,
+) => {
   const notification = await createNotification(data)
   if (notification) {
     const [, error] = await tryCatch(async () => {

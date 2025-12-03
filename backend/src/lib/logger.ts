@@ -14,57 +14,57 @@ const transport =
           },
         },
       }
-    // logtail transport
-    // : {
-    //     transport: {
-    //       targets: [
-    //         {
-    //           target: '@logtail/pino',
-    //           options: {
-    //             sourceToken: config.logger.betterstackToken,
-    //             options: {
-    //               endpoint: `https://${config.logger.betterstackHost}`,
-    //               batchSize: 1,
-    //               batchInterval: 1000,
-    //             },
-    //           },
-    //           level: 'info',
-    //         },
-    //         {
-    //           target: 'pino-pretty',
-    //           options: {
-    //             colorize: true,
-    //             translateTime: 'SYS:standard',
-    //             ignore: 'pid,hostname',
-    //           },
-    //           level: 'info',
-    //         },
-    //       ],
-    //     },
-    //   }
-    : {
-      transport: {
-        targets: [
-          {
-            target: '@axiomhq/pino',
-            options: {
-              dataset: config.logger.axiomDataset,
-              token: config.logger.axiomToken
+    : // logtail transport
+      // : {
+      //     transport: {
+      //       targets: [
+      //         {
+      //           target: '@logtail/pino',
+      //           options: {
+      //             sourceToken: config.logger.betterstackToken,
+      //             options: {
+      //               endpoint: `https://${config.logger.betterstackHost}`,
+      //               batchSize: 1,
+      //               batchInterval: 1000,
+      //             },
+      //           },
+      //           level: 'info',
+      //         },
+      //         {
+      //           target: 'pino-pretty',
+      //           options: {
+      //             colorize: true,
+      //             translateTime: 'SYS:standard',
+      //             ignore: 'pid,hostname',
+      //           },
+      //           level: 'info',
+      //         },
+      //       ],
+      //     },
+      //   }
+      {
+        transport: {
+          targets: [
+            {
+              target: '@axiomhq/pino',
+              options: {
+                dataset: config.logger.axiomDataset,
+                token: config.logger.axiomToken,
+              },
+              level: 'info',
             },
-            level: 'info',
-          },
-          {
-            target: 'pino-pretty',
-            options: {
-              colorize: true,
-              translateTime: 'SYS:standard',
-              ignore: 'pid,hostname',
+            {
+              target: 'pino-pretty',
+              options: {
+                colorize: true,
+                translateTime: 'SYS:standard',
+                ignore: 'pid,hostname',
+              },
+              level: 'info',
             },
-            level: 'info',
-          },
-        ],
-      },
-    }
+          ],
+        },
+      }
 
 const baseLogger = pino({
   level: config.nodeEnv === 'development' ? 'debug' : 'info',

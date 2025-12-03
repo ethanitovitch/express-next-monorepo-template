@@ -1,7 +1,7 @@
 import { db } from '@/lib/db'
 import { sql } from 'kysely'
 import { withIdAndTimestamps } from './utils'
-import { 
+import {
   CreateNotificationInput,
   CursorPaginationRequest,
   CursorPaginatedResponse,
@@ -14,7 +14,7 @@ type FindByUserIdOptions = CursorPaginationRequest & {
 
 export const findByUserId = async (
   userId: string,
-  options: FindByUserIdOptions
+  options: FindByUserIdOptions,
 ): Promise<CursorPaginatedResponse<DBNotification>> => {
   let query = db
     .selectFrom('notification')
@@ -42,7 +42,7 @@ export const findByUserId = async (
 
   const hasMore = notifications.length > options.limit
   const data = hasMore ? notifications.slice(0, -1) : notifications
-  const nextCursor = hasMore ? data[data.length - 1]?.id ?? null : null
+  const nextCursor = hasMore ? (data[data.length - 1]?.id ?? null) : null
 
   return {
     data,
@@ -97,8 +97,5 @@ export const create = async (data: CreateNotificationInput) => {
 }
 
 export const deleteById = async (id: string) => {
-  return db
-    .deleteFrom('notification')
-    .where('id', '=', id)
-    .executeTakeFirst()
+  return db.deleteFrom('notification').where('id', '=', id).executeTakeFirst()
 }

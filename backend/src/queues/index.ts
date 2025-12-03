@@ -41,6 +41,6 @@ export const scheduleRecurringExampleCheck = async () => {
       jobId: 'example-check', // Ensure only one recurring job
       removeOnComplete: 10, // Keep last 10 completed jobs
       removeOnFail: 5, // Keep last 5 failed jobs
-    }
-  );
-};
+    },
+  )
+}

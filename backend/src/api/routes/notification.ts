@@ -22,14 +22,14 @@ router.get(
   '/',
   withBetterAuth,
   validateAndMerge(GetNotificationsRequestSchema),
-  authenticatedRoute<GetNotificationsRequest>(getNotifications)
+  authenticatedRoute<GetNotificationsRequest>(getNotifications),
 )
 
 // Get unread count
 router.get(
   '/unread-count',
   withBetterAuth,
-  authenticatedRoute<{}>(getUnreadCount)
+  authenticatedRoute<{}>(getUnreadCount),
 )
 
 // Mark single notification as read
@@ -37,14 +37,14 @@ router.post(
   '/mark-read',
   withBetterAuth,
   validateAndMerge(MarkNotificationReadRequestSchema),
-  authenticatedRoute<MarkNotificationReadRequest>(markAsRead)
+  authenticatedRoute<MarkNotificationReadRequest>(markAsRead),
 )
 
 // Mark all notifications as read
 router.post(
   '/mark-all-read',
   withBetterAuth,
-  authenticatedRoute<{}>(markAllAsRead)
+  authenticatedRoute<{}>(markAllAsRead),
 )
 
 export default router

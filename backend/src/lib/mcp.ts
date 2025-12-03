@@ -6,16 +6,11 @@ export function createMcpServer() {
     version: '1.0.0',
   })
 
-  mcpServer.tool(
-    'hello-world',
-    async () => {
-      return {
-        content: [
-          { type: 'text' as const, text: 'Hello, world!' },
-        ],
-      }
-    },
-  )
+  mcpServer.tool('hello-world', async () => {
+    return {
+      content: [{ type: 'text' as const, text: 'Hello, world!' }],
+    }
+  })
 
   return mcpServer
 }

@@ -5,10 +5,9 @@ import {
   MarkNotificationReadRequest,
 } from '@shared/types/src'
 
-export const getNotifications: AuthRequestHandler<GetNotificationsRequest> = async (
-  req,
-  res
-) => {
+export const getNotifications: AuthRequestHandler<
+  GetNotificationsRequest
+> = async (req, res) => {
   const { cursor, limit, unreadOnly } = req.validated
   const result = await notificationService.getNotifications(req.user.id, {
     cursor,
@@ -23,14 +22,13 @@ export const getUnreadCount: AuthRequestHandler<{}> = async (req, res) => {
   res.json({ count })
 }
 
-export const markAsRead: AuthRequestHandler<MarkNotificationReadRequest> = async (
-  req,
-  res
-) => {
+export const markAsRead: AuthRequestHandler<
+  MarkNotificationReadRequest
+> = async (req, res) => {
   const { notificationId } = req.validated
   const notification = await notificationService.markAsRead(
     req.user.id,
-    notificationId
+    notificationId,
   )
   res.json(notification)
 }
@@ -39,4 +37,3 @@ export const markAllAsRead: AuthRequestHandler<{}> = async (req, res) => {
   const result = await notificationService.markAllAsRead(req.user.id)
   res.json(result)
 }
-

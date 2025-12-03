@@ -1,5 +1,5 @@
-import Pusher from "pusher";
-import { config } from "@/config";
+import Pusher from 'pusher'
+import { config } from '@/config'
 
 export const pusher = new Pusher({
   appId: config.pusher.appId,
@@ -8,6 +8,6 @@ export const pusher = new Pusher({
   host: config.pusher.host,
   port: String(config.pusher.port),
   useTLS: config.pusher.useTLS,
-});
+})
 
-export default pusher;
+export default pusher

@@ -23,8 +23,8 @@ app.listen(config.port, () => {
 })
 
 startWorker().catch((error: Error) => {
-  logger.error({ error }, 'Error starting Worker service');
-  process.exit(1);
-});
+  logger.error({ error }, 'Error starting Worker service')
+  process.exit(1)
+})
 
 export default app
