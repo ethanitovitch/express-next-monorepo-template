@@ -3,6 +3,9 @@ import { writeFile } from "fs/promises";
 import path from "path";
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json({ error: 'Not allowed' }, { status: 403 });
+  }
   try {
     const body = await request.json();
     const { layout, colors, radius } = body;
